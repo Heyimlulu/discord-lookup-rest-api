@@ -41,13 +41,20 @@ const formatData = (data: any): any => {
     let bannerURL: any = null;
     if (banner) bannerURL = `https://cdn.discordapp.com/banners/${id}/${banner}`;
 
+    // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
+    const timestamp: number = ((id / 4194304) + 1420070400000);
+    // Date format
+    const options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+
     let response = {
         "id": id,
         "username": `${username}#${discriminator}`,
         "avatar": avatarURL,
         "banner": bannerURL,
         "bannerColor": banner_color,
-        "badges": badges
+        "badges": badges,
+        "timestamp": timestamp,
+        "creationDate": new Date(timestamp).toLocaleString('en-US', options)
     }
 
     return response;

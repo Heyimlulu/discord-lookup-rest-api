@@ -11,6 +11,8 @@ interface User {
     banner: string;
     bannerColor: string;
     badges: string[];
+    timestamp: number;
+    creationDate: Date;
 }
 
 const getUserById = async (req: Request, res: Response, next:NextFunction) => {
@@ -29,7 +31,7 @@ const getUserById = async (req: Request, res: Response, next:NextFunction) => {
     }
     let user: [User] = formatData(result.data);
     return res.status(200).json({
-        data: user
+        user: user
     });
 }
 
