@@ -28,17 +28,22 @@ This API supports data response in JSON format.
 | :--------: | :--------: | :--------: | :--------: | :--------: |
 | id | `required` | userID | - | Integer
 
-#### Example output
+#### Example response
 
 ```
 {
-  "data": {
-    "id": "",
-    "username": "",
-    "avatar": "",
-    "banner": "",
-    "bannerColor": "",
-    "badges": []
+  "user": {
+    "id": "265896171384340480",
+    "username": "Slimey#0667",
+    "avatar": "https://cdn.discordapp.com/avatars/265896171384340480/a_f33a32c8e44b8c0246e5433b8c0edb65",
+    "banner": "https://cdn.discordapp.com/banners/265896171384340480/0dab7cfebe53dd7549fd84774a07ed78",
+    "bannerColor": "#8f7cff",
+    "badges": [
+      "House_Bravery",
+      "Early_Supporter"
+    ],
+    "timestamp": 1483464987370,
+    "creationDate": "Tuesday, January 3, 2017, 5:36 PM"
   }
 }
 ```
