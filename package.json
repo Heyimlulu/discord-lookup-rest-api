@@ -2,10 +2,10 @@
   "name": "discord-lookup-api",
   "version": "1.0.0",
   "description": "Lookup for a user or bot id.",
-  "main": "src/index.ts",
+  "main": "index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "start": "ts-node index.ts",
+    "dev": "nodemon index.ts"
   },
   "author": "Lucas",
   "license": "ISC",

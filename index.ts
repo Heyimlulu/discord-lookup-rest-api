@@ -1,7 +1,8 @@
 import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
-import routes from './routes/user';
+import routes from './src/routes/user';
+import path from "path";
 
 const router: Express = express();
 
@@ -24,6 +25,10 @@ router.use((req, res, next) => {
         return res.status(200).json({});
     }
     next();
+});
+
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // Routes
