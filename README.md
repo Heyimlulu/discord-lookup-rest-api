@@ -27,3 +27,18 @@ This API supports data response in JSON format.
 | Parameter | Value | Description | Parameter Type | Data Type |
 | :--------: | :--------: | :--------: | :--------: | :--------: |
 | id | `required` | userID | - | Integer
+
+#### Example output
+
+```
+{
+  "data": {
+    "id": "",
+    "username": "",
+    "avatar": "",
+    "banner": "",
+    "bannerColor": "",
+    "badges": []
+  }
+}
+```
