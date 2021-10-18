@@ -47,7 +47,7 @@ const formatData = (data: any): any => {
     const options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 
     let response = {
-        "id": id,
+        "id": parseInt(id),
         "username": `${username}#${discriminator}`,
         "avatar": avatarURL,
         "banner": bannerURL,
