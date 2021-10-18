@@ -33,7 +33,7 @@ This API supports data response in JSON format.
 ```
 {
   "user": {
-    "id": "265896171384340480",
+    "id": 265896171384340480,
     "username": "Slimey#0667",
     "avatar": "https://cdn.discordapp.com/avatars/265896171384340480/a_f33a32c8e44b8c0246e5433b8c0edb65",
     "banner": "https://cdn.discordapp.com/banners/265896171384340480/0dab7cfebe53dd7549fd84774a07ed78",
