@@ -27,8 +27,10 @@ router.use((req, res, next) => {
     next();
 });
 
+router.use('/static', express.static(path.join(__dirname, 'static')));
+
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Routes
