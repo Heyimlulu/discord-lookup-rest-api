@@ -4,7 +4,7 @@ Lookup a Discord User or Bot ID.
 
 ## Getting started
 
-The current version of the API lives at `http://api.paanya.moe/`.
+The current version of the API lives at `https://paanya.moe/`.
 
 ### Versions
 

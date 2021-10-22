@@ -30,7 +30,7 @@ router.use((req, res, next) => {
 router.use('/static', express.static(path.join(__dirname, 'static')));
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'static/index.html'));
 });
 
 // Routes
