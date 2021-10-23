@@ -14,19 +14,18 @@ The current version of the API lives at `https://paanya.moe/`.
 
 ### Endpoints
 
-| Endpoint | What it does |
-| :--------: | :--------: |
-| `/users/:id` | Return a Discord user based on his ID |
+Endpoint starts at `/api`
 
 ## API calls
 
 This API supports data response in JSON format.
 
-### GET /users/:id
+### GET requests
 
-| Parameter | Value | Description | Parameter Type | Data Type |
-| :--------: | :--------: | :--------: | :--------: | :--------: |
-| id | `required` | userID | - | Integer
+| URL | What it does |
+| :--------: | :--------: |
+| `/user/profile/:id` | Return a Discord user based on his ID |
+| `/auth/user` | Retrieves the authenticated user. Uses the `access_token` retrieved upon authorization to retrieve the information from Discord's `/api/user/@me` route. |
 
 #### Example response
 

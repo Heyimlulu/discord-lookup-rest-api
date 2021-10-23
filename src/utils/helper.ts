@@ -16,8 +16,8 @@ const badgesList = [
 
 const formatData = (data: any): any => {
 
-    // Destructuring fetched datas
-    const { id, username, discriminator, avatar, banner, banner_color, public_flags, bot } = data;
+    // Destructuring
+    const { id, username, avatar, discriminator, public_flags, bot, banner, banner_color } = data;
 
     // Badges
     let badges: Array<string> = [];
