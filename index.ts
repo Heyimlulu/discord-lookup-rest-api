@@ -1,7 +1,7 @@
 import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
-import routes from './src/routes/user';
+import routes from './src/routes/routes';
 import path from "path";
 
 const router: Express = express();
@@ -27,24 +27,25 @@ router.use((req, res, next) => {
     next();
 });
 
+// Website routes
 router.use('/static', express.static(path.join(__dirname, 'static')));
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/index.html'));
 });
 
-// Routes
-router.use('/', routes);
+// API Routes
+router.use('/api', routes);
 
 // Error handling
-router.use((req, res, next) => {
+router.use((req, res) => {
     const error = new Error('I think you got lost');
     return res.status(404).json({
         message: error.message
     });
 });
 
-/** Server */
+// Server
 const httpServer = http.createServer(router);
 const PORT: any = process.env.PORT || 3000;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
