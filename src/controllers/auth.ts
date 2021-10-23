@@ -1,12 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 import url from 'url';
 import { DISCORD_API_ROUTES } from '../utils/enum';
+import { isProd } from '../environment/environment';
 
 export async function getAuthentificatedUser (req: Request, res: Response, next:NextFunction) {
-    return res.redirect(`https://discord.com/api/oauth2/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/redirect&response_type=code&scope=identify`);
+    return res.redirect(`https://discord.com/api/oauth2/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${isProd()}&response_type=code&scope=identify`);
 }
 
 export async function authDiscordRedirect (req: Request, res: Response) {
