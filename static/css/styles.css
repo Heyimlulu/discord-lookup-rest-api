@@ -24,9 +24,6 @@ body {
   border-radius: 1rem;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.45);
   transition: all .2s; }
-  .container:hover {
-    transform: scale(1.02);
-    box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.45); }
   .container__title {
     color: #FFF; }
   .container__data {
@@ -82,20 +79,28 @@ body {
   background: #2C2F33;
   border-radius: 0 0 5px 5px; }
 
-.login__button {
+.btn:visited,
+.btn:active {
+  text-decoration: none; }
+
+.btn, .btn:link, .btn:visited {
   text-decoration: none;
-  display: block;
+  text-transform: uppercase;
+  display: inline-block;
+  cursor: pointer;
   line-height: 3.5rem;
-  padding: 0 2rem;
-  margin: 1.7rem 0;
-  background: #5865F2;
-  border-radius: .3rem;
-  color: #FFF;
-  font-weight: 700;
-  font-size: 1.6rem;
+  padding: 0 1.2rem;
+  border-radius: .5rem;
+  border: none;
   transition: all .2s ease;
   box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.35); }
-  .login__button:hover {
+
+.btn__info {
+  background: #5865F2;
+  color: #FFF;
+  font-weight: 700;
+  font-size: 1.6rem; }
+  .btn__info:hover {
     background: rgba(88, 101, 242, 0.75);
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.35); }
 
@@ -116,3 +121,8 @@ body {
     font-weight: 700;
     font-size: 16px;
     padding-bottom: 10px; }
+
+@media (min-width: 87.5rem) {
+  .container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2rem 2rem rgba(0, 0, 0, 0.45); } }
