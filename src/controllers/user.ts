@@ -23,7 +23,12 @@ export async function getUser (req: Request, res: Response) {
 */
 
 export async function getUserById (req: Request, res: Response, next:NextFunction) {
-    const { id } = req.params;
+    if (!req.query.q) return res.status(400).send('Invalid Discord ID')
+
+    const id = req.query.q;
+
+    console.log(id);
+
     try {
         const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
             headers: {

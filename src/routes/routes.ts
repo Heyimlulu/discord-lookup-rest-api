@@ -1,9 +1,10 @@
-import express from 'express';
+import { Router } from 'express';
 import { getUserById } from '../controllers/user';
 //import { getAuthentificatedUser, authDiscordRedirect } from '../controllers/auth';
-const router = express.Router();
 
-router.get('/user/profile/:id', getUserById);
+const router = Router();
+
+router.get('/user/profile/:id?', getUserById);
 //router.get('/auth/user', getAuthentificatedUser);
 //router.get('/auth/redirect', authDiscordRedirect)
 
