@@ -41,8 +41,8 @@ This API supports data response in JSON format.
       "House_Bravery",
       "Early_Supporter"
     ],
-    "timestamp": 1483464987370,
-    "creationDate": "Tuesday, January 3, 2017, 5:36 PM"
+    "timestamp": 1483464987,
+    "creationDate": "Tue, 03 Jan 2017 17:36:27 GMT"
   }
 }
 ```
