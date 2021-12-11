@@ -41,7 +41,7 @@ export async function getUserById (req: Request, res: Response, next:NextFunctio
     } catch {
         const error = new Error("User not found");
         return res.status(404).json({
-            data: error.message
+            message: error.message
         })
     }
 }
