@@ -37,11 +37,11 @@ export async function getUserById (req: Request, res: Response, next:NextFunctio
         });
 
         let user = formatData(response.data);
-        return res.json({ user });
+        return res.json({ data: user });
     } catch {
         const error = new Error("User not found");
         return res.status(404).json({
-            message: error.message
+            data: error.message
         })
     }
 }
