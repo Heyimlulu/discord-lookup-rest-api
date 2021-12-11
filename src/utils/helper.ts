@@ -43,8 +43,6 @@ const formatData = (data: any): any => {
 
     // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
     const timestamp: number = ((id / 4194304) + 1420070400000);
-    // Date format
-    const options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 
     let response = {
         "id": parseInt(id),
@@ -53,8 +51,8 @@ const formatData = (data: any): any => {
         "banner": bannerURL,
         "bannerColor": banner_color,
         "badges": badges,
-        "timestamp": timestamp,
-        "creationDate": new Date(timestamp).toLocaleString('en-US', options)
+        "timestamp": Math.round(new Date(timestamp).getTime() / 1000),
+        "creationDate": new Date(timestamp).toUTCString()
     }
 
     return response;
