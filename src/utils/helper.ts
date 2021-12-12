@@ -52,7 +52,7 @@ const formatData = (data: any): any => {
         "bannerColor": banner_color,
         "badges": badges,
         "timestamp": Math.round(new Date(timestamp).getTime() / 1000),
-        "creationDate": new Date(timestamp).toUTCString()
+        "created": new Date(timestamp).toUTCString()
     }
 
     return response;
