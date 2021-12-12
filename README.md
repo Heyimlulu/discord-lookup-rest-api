@@ -30,7 +30,7 @@ This API supports data response in JSON format.
 
 ## Example response
 
-###On success
+### On success
 
 ```json
 {
