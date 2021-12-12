@@ -25,9 +25,7 @@ export async function getUser (req: Request, res: Response) {
 export async function getUserById (req: Request, res: Response, next:NextFunction) {
     if (!req.query.q) return res.status(400).send('Invalid Discord ID')
 
-    const id = req.query.q;
-
-    console.log(id);
+    const id: any = req.query.q;
 
     try {
         const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
@@ -37,11 +35,20 @@ export async function getUserById (req: Request, res: Response, next:NextFunctio
         });
 
         let user = formatData(response.data);
-        return res.json({ data: user });
+        return res.json({
+            success: true,
+            message: 'User found',
+            data: user
+        });
     } catch {
         const error = new Error("User not found");
         return res.status(404).json({
-            message: error.message
+            success: false,
+            message: error.message,
+            data: {
+                id,
+                created: new Date(((id / 4194304) + 1420070400000)).toUTCString()
+            }
         })
     }
 }
