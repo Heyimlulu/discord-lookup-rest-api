@@ -13,5 +13,7 @@ export const Logs = logsModel(sequelize);
 export const initDb = () => {
     return sequelize.sync().then(() => {
         console.log('Database has successfully been synced');
+    }).catch((err) => {
+        console.error(err);
     });
 }
