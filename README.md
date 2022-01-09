@@ -12,6 +12,7 @@ The current version of the API lives at `https://discord-lookup-api.herokuapp.co
 | :--------: | :--------: | :--------: |
 | `version 1` | 10/16/2021 | Initial deployment |
 | `version 2` | 12/12/2021 | Lots of improvement |
+| `version 3` | 01/09/2022 | Linked database for logging purposes |
 
 ### Endpoints
 
