@@ -1,8 +1,12 @@
 import { Sequelize } from 'sequelize';
 import { logsModel } from './models/logs';
 const config = require('../../config/config.json');
+import dotenv from 'dotenv';
 
-const sequelize = new Sequelize(config.production);
+dotenv.config();
+
+// @ts-ignore
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 sequelize.authenticate()
     .then(() => console.log('Connection to the database has been successfully established '))
