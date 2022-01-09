@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 import { logsModel } from './models/logs';
 const config = require('../../config/config.json');
 
-const sequelize = new Sequelize(config.development);
+const sequelize = new Sequelize(config.production);
 
 sequelize.authenticate()
     .then(() => console.log('Connection to the database has been successfully established '))
