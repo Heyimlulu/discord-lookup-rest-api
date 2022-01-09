@@ -3,8 +3,12 @@ import express, { Express } from 'express';
 import morgan from 'morgan';
 import routes from './src/routes/routes';
 import path from "path";
+import { initDb } from './src/sequelize/sequelize';
 
 const router: Express = express();
+
+// Database initialization
+initDb();
 
 // Logging
 router.use(morgan('dev'));

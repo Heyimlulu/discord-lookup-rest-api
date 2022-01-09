@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 dotenv.config();
 import formatData  from '../utils/helper';
 import { User } from '../utils/types';
+import { Logs } from '../sequelize/sequelize';
+import { literal } from "sequelize";
+import { dateFormatter } from '../utils/datetime';
 
 /*
 export async function getUser (req: Request, res: Response) {
@@ -26,6 +29,15 @@ export async function getUserById (req: Request, res: Response, next:NextFunctio
     if (!req.query.q) return res.status(400).send('Invalid Discord ID')
 
     const id: any = req.query.q;
+
+    if (await Logs.findOne({ where: { date: dateFormatter() } })) {
+        await Logs.update({ count: literal('count + 1') }, { where: { date: dateFormatter() }} )
+    } else {
+        Logs.create({
+            date: dateFormatter(),
+            count: 1
+        }).then((logs: any) => console.log(logs.toJSON()));
+    }
 
     try {
         const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
