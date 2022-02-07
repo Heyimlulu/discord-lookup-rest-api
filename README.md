@@ -27,7 +27,7 @@ This API supports data response in JSON format.
 | URL | What it does |
 | :--------: | :--------: |
 | `/user/profile/:id` | Return a Discord user based on his ID |
-| `/auth/user` | Retrieves the authenticated user. Uses the `access_token` retrieved upon authorization to retrieve the information from Discord's `/api/user/@me` route. |
+| ~~`/auth/user`~~ | ~~Retrieves the authenticated user. Uses the `access_token` retrieved upon authorization to retrieve the information from Discord's `/api/user/@me` route.~~ |
 
 ## Example response
 
