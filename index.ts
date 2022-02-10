@@ -1,5 +1,5 @@
 import http from 'http';
-import express, { Express } from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
 import routes from './src/routes/routes';
 import path from "path";
@@ -18,7 +18,7 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
 // Rules
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
     // set the CORS policy
     res.header('Access-Control-Allow-Origin', '*');
     // set the CORS headers
@@ -34,7 +34,7 @@ router.use((req, res, next) => {
 // Website routes
 router.use('/static', express.static(path.join(__dirname, 'static')));
 
-router.get('/', (req, res) => {
+router.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'static/index.html'));
 });
 
@@ -42,7 +42,7 @@ router.get('/', (req, res) => {
 router.use('/api', routes);
 
 // Error handling
-router.use((req, res) => {
+router.use((req: Request, res: Response) => {
     const error = new Error('I think you got lost');
     return res.status(404).json({
         message: error.message
