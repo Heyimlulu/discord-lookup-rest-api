@@ -1,4 +1,4 @@
-export const dateFormatter = () => {
+export const datetime = () => {
     let date: string;
     let today: any = new Date();
 

@@ -1,13 +1,10 @@
 import { Router } from 'express';
-import { getUserById } from '../controllers/user';
-import { getTodayStats } from '../controllers/logs';
-//import { getAuthentificatedUser, authDiscordRedirect } from '../controllers/auth';
+import UserController  from '../controllers/user';
+import LoggingController from '../controllers/logs';
 
 const router = Router();
 
-router.get('/user/profile/:id?', getUserById);
-router.get('/logs/today', getTodayStats);
-//router.get('/auth/user', getAuthentificatedUser);
-//router.get('/auth/redirect', authDiscordRedirect)
+router.get('/user/profile/:id?', UserController.getUserByID);
+router.get('/logs/today', LoggingController.getTodayStats);
 
 export = router;
