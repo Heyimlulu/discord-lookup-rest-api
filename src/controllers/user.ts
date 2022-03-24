@@ -7,12 +7,9 @@ import { User } from '../utils/types';
 import { Logs } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
-import { Get, Route } from "tsoa";
 
-@Route('user')
 export default class UserController {
-
-    @Get('getUserByID')
+    
     static async getUserByID (req: Request, res: Response, next:NextFunction) {
         if (!req.query.q) return res.status(400).send('Invalid Discord ID')
 
