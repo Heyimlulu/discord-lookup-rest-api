@@ -2,14 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
-import formatData  from '../utils/helper';
+import fetchUserInfos  from '../utils/helper';
 import { User } from '../utils/types';
 import { Logs } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
 
 export default class UserController {
-    
+
     static async getUserByID (req: Request, res: Response, next:NextFunction) {
         if (!req.query.q) return res.status(400).send('Invalid Discord ID')
 
@@ -31,7 +31,7 @@ export default class UserController {
                 }
             });
 
-            let user = formatData(response.data);
+            let user = fetchUserInfos(response.data);
             return res.json({
                 success: true,
                 message: 'User found',

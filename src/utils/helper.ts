@@ -1,20 +1,20 @@
-const badgesList = [
-    ["Discord_Employee", 1 << 0],
-    ["Partnered_Server_Owner", 1 << 1],
-    ["HypeSquad_Events", 1 << 2],
-    ["Bug_Hunter_Level_1", 1 << 3],
-    ["House_Bravery", 1 << 6],
-    ["House_Brilliance", 1 << 7],
-    ["House_Balance", 1 << 8],
-    ["Early_Supporter", 1 << 9],
-    ["Team_User", 1 << 10],
-    ["Bug_Hunter_Level_2", 1 << 14],
-    ["Verified_Bot", 1 << 16],
-    ["Early_Verified_Bot_Developer", 1 << 17],
-    ["Discord_Certified_Moderator", 1 << 18]
-]
+const fetchUserInfos = (data: any): object => {
 
-const formatData = (data: any): any => {
+    const badgesList = [
+        ["Discord_Employee", 1 << 0],
+        ["Partnered_Server_Owner", 1 << 1],
+        ["HypeSquad_Events", 1 << 2],
+        ["Bug_Hunter_Level_1", 1 << 3],
+        ["House_Bravery", 1 << 6],
+        ["House_Brilliance", 1 << 7],
+        ["House_Balance", 1 << 8],
+        ["Early_Supporter", 1 << 9],
+        ["Team_User", 1 << 10],
+        ["Bug_Hunter_Level_2", 1 << 14],
+        ["Verified_Bot", 1 << 16],
+        ["Early_Verified_Bot_Developer", 1 << 17],
+        ["Discord_Certified_Moderator", 1 << 18]
+    ]
 
     // Destructuring
     const { id, username, avatar, discriminator, public_flags, bot, banner, banner_color } = data;
@@ -58,4 +58,4 @@ const formatData = (data: any): any => {
     return response;
 }
 
-export default formatData;
+export default fetchUserInfos;
