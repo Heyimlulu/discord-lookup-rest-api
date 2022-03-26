@@ -20,7 +20,7 @@ export default class LoggingController {
 
     static async getAllLogs (req: Request, res: Response) {
         try {
-            const response = await Logs.findAndCountAll();
+            const response = await Logs.findAndCountAll({ order: [['id', 'ASC']] });
 
             return res.json({
                 success: true,
