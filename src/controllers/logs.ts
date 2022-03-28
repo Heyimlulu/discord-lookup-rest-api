@@ -36,8 +36,9 @@ export default class LoggingController {
 
     static async getLogsByDate (req: Request, res: Response) {
         try {
-            const response = await Logs.findAll({
-                where: { date: { [Op.like]: `%${req.params.date}%` }}
+            const response = await Logs.findAndCountAll({
+                where: { date: { [Op.like]: `%${req.params.date}%` }},
+                order: [['id', 'ASC']]
             });
 
             return res.json({
