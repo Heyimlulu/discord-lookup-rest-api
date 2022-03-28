@@ -27,6 +27,10 @@ This API supports data response in JSON format.
 | URL | What it does |
 | :--------: | :--------: |
 | `/user/profile/:id` | Return a Discord user based on his ID |
+| `/user/random` | Return a random Discord user based by generating a random snowflake ID |
+| `/logs` | Return all logs |
+| `/logs/today` | Return today logs |
+| `/logs/:date` | Return logs by date |
 | ~~`/auth/user`~~ | ~~Retrieves the authenticated user. Uses the `access_token` retrieved upon authorization to retrieve the information from Discord's `/api/user/@me` route.~~ |
 
 ## Example response
