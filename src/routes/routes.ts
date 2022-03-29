@@ -9,6 +9,7 @@ router.get('/user/random', UserController.getRandomUser);
 
 router.get('/logs/today', LoggingController.getTodayLogs);
 router.get('/logs', LoggingController.getAllLogs);
-router.get('/logs/:date', LoggingController.getLogsByDate);
+router.get('/logs/:year', LoggingController.getLogsByYear);
+router.get('/logs/:year/:month', LoggingController.getLogsByYearAndMonth);
 
 export = router;
