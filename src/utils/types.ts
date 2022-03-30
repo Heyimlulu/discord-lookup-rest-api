@@ -1,3 +1,8 @@
+export type Login = {
+    username: string;
+    password: string;
+}
+
 export type User = {
     id: Number;
     username: string;

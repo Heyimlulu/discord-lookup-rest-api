@@ -1,15 +1,19 @@
 import { Router } from 'express';
-import UserController  from '../controllers/user';
-import LoggingController from '../controllers/logs';
+import AuthentificationController from '../controllers/authentification';
+import DiscordApiController  from '../controllers/discordApi';
+import LoggingController from '../controllers/logging';
+import { verifyToken } from '../auth/auth';
 
 const router = Router();
 
-router.get('/user/profile/:id?', UserController.getUserByID);
-router.get('/user/random', UserController.getRandomUser);
+router.post('/login', AuthentificationController.login);
 
-router.get('/logs/today', LoggingController.getTodayLogs);
-router.get('/logs', LoggingController.getAllLogs);
-router.get('/logs/:year', LoggingController.getLogsByYear);
-router.get('/logs/:year/:month', LoggingController.getLogsByYearAndMonth);
+router.get('/user/profile/:id?', DiscordApiController.getUserByID);
+router.get('/user/random', DiscordApiController.getRandomUser);
+
+router.get('/logs/today', verifyToken, LoggingController.getTodayLogs);
+router.get('/logs', verifyToken, LoggingController.getAllLogs);
+router.get('/logs/:year', verifyToken, LoggingController.getLogsByYear);
+router.get('/logs/:year/:month', verifyToken, LoggingController.getLogsByYearAndMonth);
 
 export = router;
