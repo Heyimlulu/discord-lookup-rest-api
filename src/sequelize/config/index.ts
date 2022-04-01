@@ -5,7 +5,6 @@ export const development: any = {
   host: "127.0.0.1",
   dialect: "mysql"
 };
-  
 
 export const production: any = {
   host: "ec2-34-199-200-115.compute-1.amazonaws.com",

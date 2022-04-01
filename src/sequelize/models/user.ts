@@ -1,11 +1,19 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-export function userModel (sequelize: Sequelize) {
+export const userModel = (sequelize: Sequelize) => {
     return sequelize.define("User", {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
+        },
+        clientId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: {
+                name: "clientId_unique",
+                msg: "The clientId must be unique",
+            },
         },
         username: {
             type: DataTypes.STRING,

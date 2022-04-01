@@ -1,14 +1,14 @@
 {
   "name": "discord-lookup-api",
+  "author": "Lucas",
   "version": "2.0.0",
-  "description": "Lookup for a user or bot id.",
+  "description": "A simple API to lookup for a Discord User or Bot ID.",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts",
-    "dev": "nodemon index.ts",
-    "compile:sass": "node-sass static/sass/main.scss static/css/styles.css -w"
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "compile:sass": "node-sass public/sass/main.scss public/css/styles.css -w"
   },
-  "author": "Lucas",
   "license": "ISC",
   "dependencies": {
     "@types/axios": "^0.14.0",

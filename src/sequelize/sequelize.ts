@@ -1,8 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { logsModel } from './models/logs';
 import { userModel } from './models/user';
-import { development, production }  from './config/';
-import bcrypt from 'bcrypt';
+import { development, production }  from './config';
 
 let config: any = undefined;
 
@@ -23,20 +22,6 @@ export const User = userModel(sequelize);
 
 export const initDb = () => {
     return sequelize.sync().then(() => {
-
-        // Create admin user
-        User.findOne({ where: { username: 'admin' } }).then((user) => {
-            if (!user) {
-                bcrypt.hash('admin', 10).then((hash) => {
-                    User.create({
-                        username: 'admin',
-                        password: hash
-                    });
-                });
-            }
-        });
-
-
         console.log('Database has successfully been synced');
     }).catch((err) => {
         console.error(err);

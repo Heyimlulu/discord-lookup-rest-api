@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import AuthentificationController from '../controllers/authentification';
+import AccountController from '../controllers/account';
 import DiscordApiController  from '../controllers/discordApi';
 import LoggingController from '../controllers/logging';
-import { verifyToken } from '../auth/auth';
+import { verifyToken } from '../oauth';
 
 const router = Router();
 
-router.post('/login', AuthentificationController.login);
+router.post('/login', AccountController.authentification);
+router.post('/register', AccountController.registration);
 
 router.get('/user/profile/:id?', DiscordApiController.getUserByID);
 router.get('/user/random', DiscordApiController.getRandomUser);

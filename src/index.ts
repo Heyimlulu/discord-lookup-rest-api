@@ -1,9 +1,9 @@
 import http from 'http';
 import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
-import routes from './src/routes/routes';
+import routes from './routes/routes';
 import path from "path";
-import { initDb } from './src/sequelize/sequelize';
+import { initDb } from './sequelize/sequelize';
 
 const router: Express = express();
 
@@ -32,10 +32,10 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Website routes
-router.use('/static', express.static(path.join(__dirname, 'static')));
+router.use('/', express.static(path.join(__dirname, '../public')));
 
 router.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'static/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // API Routes

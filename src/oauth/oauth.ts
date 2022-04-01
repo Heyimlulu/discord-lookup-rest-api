@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { PRIVATE_KEY } from '../auth/private_key';
+import { PRIVATE_KEY } from './constants';
 
 export const verifyToken = (req: any, res: any, next: any) => {
     const bearerHeader = req.headers['authorization'];
@@ -20,9 +20,10 @@ export const verifyToken = (req: any, res: any, next: any) => {
                 message: 'Failed to authenticate token'
             });
         }
+        
+        const clientId = decoded.id;
 
-        const username = decoded.username;
-        if (req.body.username !== username) {
+        if (req.body.clientId !== clientId) {
             return res.status(401).json({
                 success: false,
                 message: 'Unauthorized user'

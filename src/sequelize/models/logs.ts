@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 
-export function logsModel (sequelize: Sequelize) {
+export const logsModel = (sequelize: Sequelize) => {
     return sequelize.define("Logs", {
         id: {
             type: DataTypes.INTEGER,
