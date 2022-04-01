@@ -1,7 +1,7 @@
 {
   "name": "discord-lookup-api",
   "author": "Lucas",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A simple API to lookup for a Discord User or Bot ID.",
   "main": "index.ts",
   "scripts": {
