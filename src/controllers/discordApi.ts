@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { userInfos }  from '../utils/userinfos';
 import { User } from '../utils/types';
-import { Logs } from '../sequelize/sequelize';
+import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
 
@@ -14,11 +14,8 @@ export default class DiscordApiController {
         const max = new Date().getTime();
         const min = 1431468000000;
         const rnd = Math.floor(Math.random() * (max - min) + min);
-        console.log(rnd);
 
-        // Generate a snowflake ID
-        const timestamp: number = rnd;
-        const id: number = ((timestamp - 1420070400000) * 4194304);
+        const id = ((rnd - 1420070400000) * 4194304);
 
         try {
             const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
@@ -68,6 +65,21 @@ export default class DiscordApiController {
             });
 
             let user = userInfos(response.data);
+
+            // check if user is a bot
+            const isBot: boolean = user.isBot;
+
+            if (await Lookup.findOne({ where: { userid: id } })) {
+                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+            } else {
+                Lookup.create({
+                    userid: id,
+                    total_search: 1,
+                    does_exist: true,
+                    is_bot: isBot
+                }).then((lookup: any) => console.log(lookup.toJSON()));
+            }
+
             return res.json({
                 success: true,
                 message: 'User found',
@@ -75,6 +87,16 @@ export default class DiscordApiController {
             });
         } catch {
             const error = new Error("User not found");
+
+            if (await Lookup.findOne({ where: { userid: id } })) {
+                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+            } else {
+                Lookup.create({
+                    userid: id,
+                    total_search: 1,
+                }).then((lookup: any) => console.log(lookup.toJSON()));
+            }
+
             return res.status(404).json({
                 success: false,
                 message: error.message,

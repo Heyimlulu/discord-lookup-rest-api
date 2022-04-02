@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { logsModel } from './models/logs';
 import { userModel } from './models/user';
+import { lookupModel } from './models/lookup';
 import { development, production }  from './config';
 
 let config: any = undefined;
@@ -19,6 +20,7 @@ sequelize.authenticate()
 
 export const Logs = logsModel(sequelize);
 export const User = userModel(sequelize);
+export const Lookup = lookupModel(sequelize);
 
 export const initDb = () => {
     return sequelize.sync().then(() => {

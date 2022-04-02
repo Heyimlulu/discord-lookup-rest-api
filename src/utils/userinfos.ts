@@ -1,4 +1,4 @@
-export const userInfos = (data: any): object => {
+export const userInfos = (data) => {
 
     const badgesList = [
         ["Discord_Employee", 1 << 0],
@@ -44,6 +44,9 @@ export const userInfos = (data: any): object => {
     // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
     const timestamp: number = ((id / 4194304) + 1420070400000);
 
+    // check if user is a bot
+    const isBot: boolean = bot;
+
     // Reverse formula to get the userID
     // console.log(((timestamp - 1420070400000) * 4194304));
 
@@ -51,6 +54,7 @@ export const userInfos = (data: any): object => {
         "id": parseInt(id),
         "username": `${username}#${discriminator}`,
         "avatar": avatarURL,
+        "isBot": isBot,
         "banner": bannerURL,
         "bannerColor": banner_color,
         "badges": badges,
