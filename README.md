@@ -13,6 +13,7 @@ The current version of the API lives at `https://discord-lookup-api.herokuapp.co
 | `version 1` | 10/16/2021 | Initial deployment |
 | `version 2` | 12/12/2021 | Lots of improvement |
 | `version 3` | 01/09/2022 | Linked database for logging purposes |
+| `version 4` | 01/04/2022 | Introducing users account |
 
 ### Endpoints
 
@@ -22,16 +23,16 @@ Endpoint starts at `/api`
 
 This API supports data response in JSON format.
 
-### GET requests
-
-| URL | What it does |
-| :--------: | :--------: |
-| `/user/profile/:id` | Return a Discord user based on his ID |
-| `/user/random` | Return a random Discord user based by generating a random snowflake ID |
-| `/logs` | Return all logs |
-| `/logs/today` | Return today logs |
-| `/logs/:date` | Return logs by date |
-| ~~`/auth/user`~~ | ~~Retrieves the authenticated user. Uses the `access_token` retrieved upon authorization to retrieve the information from Discord's `/api/user/@me` route.~~ |
+| Method | URL | Auth? | What it does |
+| :---: | :--------: | :--------: | :--------: |
+| GET | `/user/profile/:id` | ❌ | Return a Discord user based on his ID |
+| GET | `/user/random` | ❌ |  Return a random Discord user based by generating a random snowflake ID |
+| GET | `/logs` | ✔ | Return all logs |
+| GET | `/logs/today` | ✔ | Return today logs |
+| GET | `/logs/:year` | ✔ | Return logs by year |
+| GET | `/logs/:year/:month` | ✔ | Return logs by year and month |
+| POST | `/login` | ❌ | Sign in to the API |
+| POST | `/register` | ❌ | Sign up to the API |
 
 ## Example response
 
