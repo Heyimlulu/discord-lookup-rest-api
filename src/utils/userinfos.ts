@@ -1,4 +1,4 @@
-const fetchUserInfos = (data: any): object => {
+export const userInfos = (data: any): object => {
 
     const badgesList = [
         ["Discord_Employee", 1 << 0],
@@ -60,5 +60,3 @@ const fetchUserInfos = (data: any): object => {
 
     return response;
 }
-
-export default fetchUserInfos;

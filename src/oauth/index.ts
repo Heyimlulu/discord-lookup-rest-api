@@ -1,2 +1,2 @@
-export * from './oauth';
-export * from './constants';
+export * from './oauth/oauth';
+export * from './oauth/constants';

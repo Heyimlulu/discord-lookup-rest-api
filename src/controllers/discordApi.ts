@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
-import fetchUserInfos  from '../utils/helper';
+import { userInfos }  from '../utils/userinfos';
 import { User } from '../utils/types';
 import { Logs } from '../sequelize/sequelize';
 import { literal } from "sequelize";
@@ -27,7 +27,7 @@ export default class DiscordApiController {
                 }
             });
 
-            let user = fetchUserInfos(response.data);
+            let user = userInfos(response.data);
             return res.json({
                 success: true,
                 message: 'User found',
@@ -67,7 +67,7 @@ export default class DiscordApiController {
                 }
             });
 
-            let user = fetchUserInfos(response.data);
+            let user = userInfos(response.data);
             return res.json({
                 success: true,
                 message: 'User found',
