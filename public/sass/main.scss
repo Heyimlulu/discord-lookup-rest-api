@@ -52,6 +52,11 @@ body{
 
     &-table {
       color: $color-white;
+      border-collapse: collapse;
+      border-spacing: 0;
+      overflow-x: auto;
+      width: 100%;
+      margin-bottom: 1rem;
 
       td {
         padding: .5rem;
@@ -130,7 +135,6 @@ body{
   &:link,
   &:visited {
     text-decoration: none;
-    text-transform: uppercase;
     display: inline-block;
     cursor: pointer;
     line-height: 3.5rem;
@@ -174,6 +178,19 @@ body{
     font-weight: 700;
     font-size: 16px;
     padding-bottom: 10px;
+  }
+}
+
+@media ( max-width: 768px ) {
+  .container {
+    margin: 0 2rem;
+  }
+  .btn {
+
+    &.btn__info {
+      font-size: 1.2rem;
+    }
+
   }
 }
 
