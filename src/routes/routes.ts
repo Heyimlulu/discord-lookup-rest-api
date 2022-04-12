@@ -12,7 +12,7 @@ router.post('/register', AccountController.registration);
 router.get('/user/profile/:id?', DiscordApiController.getUserByID);
 router.get('/user/random', DiscordApiController.getRandomUser);
 
-router.get('/logs/today', verifyToken, LoggingController.getTodayLogs);
+router.get('/logs/today', LoggingController.getTodayLogs);
 router.get('/logs', verifyToken, LoggingController.getAllLogs);
 router.get('/logs/:year', verifyToken, LoggingController.getLogsByYear);
 router.get('/logs/:year/:month', verifyToken, LoggingController.getLogsByYearAndMonth);
