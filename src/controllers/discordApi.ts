@@ -44,7 +44,22 @@ export default class DiscordApiController {
     }
 
     static async getUserByID (req: Request, res: Response, next:NextFunction) {
-        if (!req.query.q) return res.status(400).send('Invalid Discord ID')
+
+        if (!req.query.q) return res.status(400).json({
+            success: false,
+            message: 'No query provided'
+        });
+
+        if (req.query.q.length !< 15) return res.status(400).json({
+            success: false,
+            message: 'ID must be 15 characters long'
+        });
+
+        const regex = /^[0-9]+$/;
+        if (!regex.test(<string>req.query.q)) return res.status(400).json({
+            success: false,
+            message: 'ID must be a number'
+        });
 
         const id: any = req.query.q;
 
