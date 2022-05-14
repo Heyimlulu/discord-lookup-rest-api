@@ -6,6 +6,13 @@ Lookup a Discord User or Bot ID.
 
 The current version of the API lives at `https://discord-lookup-api.herokuapp.com/`.
 
+### Deploy
+
+```bash
+heroku git:remote -a app_name
+git push heroku main:main
+```
+
 ### Versions
 
 | Version | Date | Changes |
