@@ -33,3 +33,17 @@ export const verifyToken = (req: any, res: any, next: any) => {
         }
     });
 };
+
+const verifyClient = (req: any, res: any, next: any) => {
+    const clientId = req.body.clientId;
+    const clientSecret = req.body.clientSecret;
+
+    if (clientId !== 'clientId' || clientSecret !== 'clientSecret') {
+        return res.status(401).json({
+            success: false,
+            message: 'Unauthorized user'
+        });
+    } else {
+        next();
+    }
+}

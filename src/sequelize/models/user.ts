@@ -15,6 +15,14 @@ export const userModel = (sequelize: Sequelize) => {
                 msg: "The clientId must be unique",
             },
         },
+        clientSecret: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: {
+                name: "clientSecret_unique",
+                msg: "The clientSecret must be unique",
+            },
+        },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
