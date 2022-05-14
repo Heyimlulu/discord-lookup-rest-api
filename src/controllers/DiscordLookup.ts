@@ -8,7 +8,7 @@ import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
 
-export default class DiscordApiController {
+export default class DiscordLookupController {
     static async getRandomUser (req: Request, res: Response, next:NextFunction) {
         // Get a random timestamp from range
         const max = new Date().getTime();
