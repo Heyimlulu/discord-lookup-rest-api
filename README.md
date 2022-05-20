@@ -67,6 +67,8 @@ This API supports data response in JSON format.
 
 ### On error
 
+#### User not found
+
 ```json
 {
   "success": false,
@@ -75,5 +77,32 @@ This API supports data response in JSON format.
     "id": "1122334455667788990",
     "created": "Sun, 25 Jun 2023 01:16:26 GMT"
   }
+}
+```
+
+#### No query
+
+```json
+{
+  "success": false,
+  "message": "No query provided"
+}
+```
+
+#### Length
+
+```json
+{
+  "success": false,
+  "message": "ID must be 15 characters long"
+}
+```
+
+#### Regex
+
+```json
+{
+  "success": false,
+  "message": "ID must be a number"
 }
 ```
