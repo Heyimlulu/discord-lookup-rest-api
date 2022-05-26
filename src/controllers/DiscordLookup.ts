@@ -112,7 +112,7 @@ export default class DiscordLookupController {
                 }).then((lookup: any) => console.log(lookup.toJSON()));
             }
 
-            return res.status(404).json({
+            return res.json({
                 success: false,
                 message: error.message,
                 data: {
