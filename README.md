@@ -45,6 +45,8 @@ This API supports data response in JSON format.
 
 ### On success
 
+#### User found
+
 ```json
 {
   "success": true,
