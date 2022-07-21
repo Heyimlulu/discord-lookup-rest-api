@@ -27,12 +27,70 @@ body{
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: #23272A;
+  background: #262626;
   font-family: 'Lato', sans-serif;
   box-sizing: border-box;
 }
 
+header {
+  position: relative;
+  width: 100%;
+}
+
+.banner {
+  background: $color-primary;
+  padding: 2rem;
+  position: absolute;
+  top: 0;
+}
+
+.banner-content {
+  text-align: center;
+  color: #fff;
+}
+
+.banner-icon {
+  margin-right: 1rem;
+  color: #fff;
+}
+
+.banner-title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.banner-subtitle {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-top: 1rem;
+}
+
+.banner-link {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: rgba(255, 255, 255, .6);
+  }
+
+  &:active, &:focus {
+    text-decoration: underline;
+  }
+}
+
 .container {
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.container-main {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -182,7 +240,7 @@ body{
 }
 
 @media ( max-width: 768px ) {
-  .container {
+  .container-main {
     margin: 0 2rem;
   }
   .btn {
@@ -195,7 +253,7 @@ body{
 }
 
 @include responsive(87.5rem) {
-  .container {
+  .container-main {
     &:hover {
       transform: scale(1.02);
       box-shadow: 0 2rem 2rem rgba($color-black, .45);
@@ -232,5 +290,38 @@ body{
   }
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
+  }
+}
+
+footer {
+  position: relative;
+}
+
+.footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+
+  &-title {
+    color: $color-white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  &-link {
+    color: $color-primary;
+    text-decoration: none;
+    transition: all .2s ease;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  &-count {
+    color: $color-primary;
+    font-weight: 700;
   }
 }
