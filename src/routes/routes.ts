@@ -10,7 +10,7 @@ const router = Router();
 //router.post('/register', AccountController.registration);
 
 router.get('/user/profile/:id?', DiscordLookupController.getUserByID);
-router.get('/user/random', DiscordLookupController.getRandomUser);
+// router.get('/user/random', DiscordLookupController.getRandomUser);
 
 router.get('/logs/today', LoggingController.getTodayLogs);
 // router.get('/logs', verifyToken, LoggingController.getAllLogs);

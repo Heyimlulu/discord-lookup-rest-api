@@ -82,7 +82,7 @@ header {
   }
 }
 
-.container {
+.box {
   display: flex; 
   justify-content: center; 
   align-items: center;
@@ -90,7 +90,7 @@ header {
   height: 100vh;
 }
 
-.container-main {
+.box-main {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -153,7 +153,6 @@ header {
   border-radius: 5px 5px 0 0;
   background: $color-primary;
   color: rgba($color-white,0.75);
-  font-size: 16px;
   text-transform: uppercase;
   font-weight: 700;
   width: 100%;
@@ -161,12 +160,12 @@ header {
 
   &--main {
     display: block;
-    font-size: 1.2rem;
+    font-size: 2.5rem;
   }
 
   &--sub {
     display: block;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 400;
   }
 }
@@ -240,7 +239,7 @@ header {
 }
 
 @media ( max-width: 768px ) {
-  .container-main {
+  .box-main {
     margin: 0 2rem;
   }
   .btn {
@@ -253,7 +252,7 @@ header {
 }
 
 @include responsive(87.5rem) {
-  .container-main {
+  .box-main {
     &:hover {
       transform: scale(1.02);
       box-shadow: 0 2rem 2rem rgba($color-black, .45);
@@ -290,38 +289,5 @@ header {
   }
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
-  }
-}
-
-footer {
-  position: relative;
-}
-
-.footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  width: 100%;
-
-  &-title {
-    color: $color-white;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-
-  &-link {
-    color: $color-primary;
-    text-decoration: none;
-    transition: all .2s ease;
-
-    &:hover {
-      color: #fff;
-    }
-  }
-
-  &-count {
-    color: $color-primary;
-    font-weight: 700;
   }
 }

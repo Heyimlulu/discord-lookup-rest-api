@@ -15,22 +15,26 @@
 </head>
 
 <body>
-    <header class="banner">
-        <div class="banner-content">
-            <h2 class="banner-title">
-                <i class="fas fa-bullhorn banner-icon"></i>
-                Don't want to use the API?
-            </h2>
-            <p class="banner-subtitle">
-                <a class="banner-link" href="https://discord.name/" target="_blank" rel="noopener noreferrer">
-                    Visit the Discord Lookup website
-                </a>
-            </p>
+    <header class="absolute">
+        <div class="relative bg-[#5865F2]">
+            <div class="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                <div class="pr-16 text-center sm:px-16">
+                    <p class="font-bold text-white text-2xl sm:text-3xl leading-9">
+                        <span class="md:hidden">Don't want to use the API?</span>
+                        <span class="hidden md:inline">Don't want to use the API?</span>
+                        <span class="block sm:ml-2 sm:inline-block">
+                            <a href="https://discord.name/" target="_blank" rel="noopener noreferrer"
+                                class="transition-all text-white hover:opacity-80 font-bold underline">Go to the
+                                Front-End<span aria-hidden="true"> &rarr;</span></a>
+                        </span>
+                    </p>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="container">
-        <div class="container-main">
+    <main class="box">
+        <div class="box-main">
             <div class="heading-primary">
                 <span class="heading-primary--main">
                     <h1>Discord Lookup</h1>
@@ -39,11 +43,11 @@
                     <h2>Is a REST API that lookup a Discord User or Bot ID.</h2>
                 </span>
             </div>
-            <h3 class="container-main__title">Base endpoint</h3>
+            <h3 class="box-main__title">Base endpoint</h3>
             <p class="paragraph">/api</p>
-            <h3 class="container-main__title">Basic (GET)</h3>
-            <div class="container-main__data">
-                <table class="container-main__data-table">
+            <h3 class="box-main__title">Basic (GET)</h3>
+            <div class="box-main__data">
+                <table class="box-main__data-table">
                     <thead>
                         <tr>
                             <th>URL</th>
@@ -57,35 +61,43 @@
                             <td>Will return Discord user infos based on his snowflake ID</td>
                             <td>
                                 <a href="/api/user/profile?q=265896171384340480" target="_blank">
-                                    <button class="btn btn__info">Get infos</button>
+                                    <button class="btn btn__info">Get user infos</button>
                                 </a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="container-main__footer">
+            <div class="box-main__footer">
                 <p>I do not save anything.</p>
                 <span>This website is not affiliated with</span>
-                <a class="container-main__footer--link" href="https://discord.com" target="_blank"
+                <a class="box-main__footer--link" href="https://discord.com" target="_blank"
                     rel="noopener noreferrer">Discord.</a>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <h2 class="footer-title">
-            &copy;
-            <span id="copyright"></span> Discord Lookup API -
-            Made with <i class="fas fa-heart" style="color:red;"></i> by
-            <a href="https://github.com/Heyimlulu" target="_blank" rel="noopener noreferrer"
-                class="footer-link">Lυlυ#1337</a> -
-            Number of requests:
-            <span id="lookup-count" class="footer-count"></span>
-        </h2>
+    <footer class="relative">
+        <div class="absolute text-center bottom-0 w-full">
+            <h2 class="text-white text-lg sm:text-2xl font-bold mb-4 flex items-center justify-center gap-x-4">
+                <p id="copyright"></p>
+                -
+                <p>
+                    Made with <i class="fas fa-heart text-red-600 mx-1"></i> by
+                    <a href="https://github.com/Heyimlulu" target="_blank" rel="noopener noreferrer"
+                        class="transition-all text-[#5865F2] hover:text-white hover:opacity-80">Lυlυ#1337</a>
+                </p>
+                -
+                <p>
+                    Number of requests:
+                    <span id="lookup-count" class="text-[#5865F2] font-bold"></span>
+                </p>
+            </h2>
+        </div>
     </footer>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="./js//script.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
 </html>
