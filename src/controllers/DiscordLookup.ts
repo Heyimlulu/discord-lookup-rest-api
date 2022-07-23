@@ -28,28 +28,28 @@ interface LookupResponse {
 
 export default class DiscordLookupController {
 
-    public async getUserByID (req: Request): Promise<LookupResponse> {
+    public async getUserByID (query: string): Promise<LookupResponse> {
 
-        if (!req.query.q) return {
+        if (!query) return {
             success: false,
             message: 'No query provided',
             data: null
         };
 
-        if (req.query.q.length !< 15) return{
+        if (query.length !< 15) return {
             success: false,
             message: 'ID must be 15 characters long',
             data: null
         };
 
         const regex = /^[0-9]+$/;
-        if (!regex.test(<string>req.query.q)) return {
+        if (!regex.test(<string>query)) return {
             success: false,
             message: 'ID must be a number',
             data: null
         };
 
-        const id: any = req.query.q;
+        const id: any = query;
 
         if (await Logs.findOne({ where: { date: datetime() } })) {
             await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
