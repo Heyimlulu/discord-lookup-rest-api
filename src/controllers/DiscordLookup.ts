@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -8,58 +8,46 @@ import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
 
+interface DataResponse {
+    id: number;
+    username: string;
+    avatar: string | null;
+    isBot?: boolean;
+    banner: string | null;
+    bannerColor: string | null;
+    badges: string[];
+    timestamp: number | null;
+    created: string;
+}
+
+interface LookupResponse {
+    success: boolean;
+    message: string;
+    data: DataResponse | null;
+}
+
 export default class DiscordLookupController {
-    static async getRandomUser (req: Request, res: Response, next:NextFunction) {
-        // Get a random timestamp from range
-        const max = new Date().getTime();
-        const min = 1431468000000;
-        const rnd = Math.floor(Math.random() * (max - min) + min);
 
-        const id = ((rnd - 1420070400000) * 4194304);
+    public async getUserByID (req: Request): Promise<LookupResponse> {
 
-        try {
-            const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
-                headers: {
-                    Authorization: `Bot ${process.env.TOKEN}`
-                }
-            });
-
-            let user = userInfos(response.data);
-            return res.json({
-                success: true,
-                message: 'User found',
-                data: user
-            });
-        } catch {
-            const error = new Error("User not found");
-            return res.status(404).json({
-                success: false,
-                message: error.message,
-                data: {
-                    id,
-                    created: new Date(((id / 4194304) + 1420070400000)).toUTCString()
-                }
-            })
-        }
-    }
-
-    static async getUserByID (req: Request, res: Response, next:NextFunction) {
-
-        if (!req.query.q) return res.status(400).json({
+        if (!req.query.q) return {
             success: false,
-            message: 'No query provided'
-        });
+            message: 'No query provided',
+            data: null
+        };
 
-        if (req.query.q.length !< 15) return res.status(400).json({
+        if (req.query.q.length !< 15) return{
             success: false,
-            message: 'ID must be 15 characters long'
-        });
+            message: 'ID must be 15 characters long',
+            data: null
+        };
 
         const regex = /^[0-9]+$/;
-        if (!regex.test(<string>req.query.q)) return res.status(400).json({
+        if (!regex.test(<string>req.query.q)) return {
             success: false,
-            message: 'ID must be a number'
-        });
+            message: 'ID must be a number',
+            data: null
+        };
 
         const id: any = req.query.q;
 
@@ -79,11 +67,12 @@ export default class DiscordLookupController {
                 }
             });
 
-            let user = userInfos(response.data);
+            const user = userInfos(response.data);
 
             // check if user is a bot
             const isBot: boolean = user.isBot;
 
+            // log user to database
             if (await Lookup.findOne({ where: { userid: id } })) {
                 await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
             } else {
@@ -95,11 +84,12 @@ export default class DiscordLookupController {
                 }).then((lookup: any) => console.log(lookup.toJSON()));
             }
 
-            return res.json({
+            // return user data
+            return {
                 success: true,
                 message: 'User found',
                 data: user
-            });
+            };
         } catch {
             const error = new Error("User not found");
 
@@ -112,14 +102,20 @@ export default class DiscordLookupController {
                 }).then((lookup: any) => console.log(lookup.toJSON()));
             }
 
-            return res.json({
+            return {
                 success: false,
                 message: error.message,
                 data: {
                     id,
+                    username: 'unknown',
+                    avatar: null,
+                    banner: null,
+                    bannerColor: null,
+                    badges: [],
+                    timestamp: ((id / 4194304) + 1420070400000),
                     created: new Date(((id / 4194304) + 1420070400000)).toUTCString()
                 }
-            })
+            };
         }
     }
 }
