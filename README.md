@@ -32,12 +32,8 @@ This API supports data response in JSON format.
 
 | Method | URL | Auth? | What it does |
 | :---: | :--------: | :--------: | :--------: |
-| GET | `/user/profile/:id` | ❌ | Return a Discord user based on his ID |
-| GET | `/user/random` | ❌ |  Return a random Discord user based by generating a random snowflake ID |
-| GET | `/logs` | ✔ | Return all logs |
+| GET | `/user/:id` | ❌ | Return a Discord user based on his ID |
 | GET | `/logs/today` | ✔ | Return today logs |
-| GET | `/logs/:year` | ✔ | Return logs by year |
-| GET | `/logs/:year/:month` | ✔ | Return logs by year and month |
 | POST | `/login` | ❌ | Sign in to the API |
 | POST | `/register` | ❌ | Sign up to the API |
 
