@@ -60,7 +60,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
-                                        <tr>
+                                        <tr class="h-24">
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 /user/:id </td>
@@ -71,6 +71,126 @@
                                                     target="_blank"
                                                     class="transition-all px-4 py-2 rounded-lg bg-[#5865F2] shadow-md text-white font-bold text-md hover:bg-[#5865F2]/60 hover:shadow-sm">Get
                                                     user infos</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="min-w-full divide-y divide-gray-300">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col"
+                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                colspan="2">
+                                                Response
+                                            </th>
+                                            <!-- <th scope="col"
+                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                                Description
+                                            </th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+                                        <tr class="border-b border-gray-200">
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                Code 200
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <pre
+                                                    class="w-1/2 overflow-x-auto sm:-mx-6 lg:-mx-8 border-2 border-gray-200 text-black text-white p-2 rounded-lg shadow-md overflow-y-auto scrollbar-none">
+                                                <code class="text-sm text-gray-500" lang="json">
+{
+    "success": true,
+    "message": "User found",
+    "data": {
+        "id": number,
+        "username": string,
+        "avatar": string,
+        "banner": string,
+        "bannerColor": string,
+        "badges": [],
+        "timestamp": number,
+        "created": string
+    }
+}
+                                                </code>
+                                            </pre>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                Code 400
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <pre
+                                                    class="w-1/2 overflow-x-auto sm:-mx-6 lg:-mx-8 border-2 border-gray-200 text-black text-white p-2 rounded-lg shadow-md overflow-y-auto scrollbar-none">
+                                                <code class="text-sm text-gray-500" lang="json">
+{
+    "success": false,
+    "message": "User not found",
+    "data": {
+        "id": number,
+        "created": string
+    }
+}
+                                                </code>
+                                            </pre>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                Code 400
+                                                <p class="mt-2 text-xs text-gray-700">Bad request</p>
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <pre
+                                                    class="w-1/2 overflow-x-auto sm:-mx-6 lg:-mx-8 border-2 border-gray-200 text-black text-white p-2 rounded-lg shadow-md overflow-y-auto scrollbar-none">
+                                                <code class="text-sm text-gray-500" lang="json">
+{
+    "success": false,
+    "message": "No query provided"
+}
+                                                </code>
+                                            </pre>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                Code 400
+                                                <p class="mt-2 text-xs text-gray-700">Bad request</p>
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <pre
+                                                    class="w-1/2 overflow-x-auto sm:-mx-6 lg:-mx-8 border-2 border-gray-200 text-black text-white p-2 rounded-lg shadow-md overflow-y-auto scrollbar-none">
+                                                <code class="text-sm text-gray-500" lang="json">
+{
+    "success": false,
+    "message": "ID must be 15 characters long"
+}
+                                                </code>
+                                            </pre>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                                Code 400
+                                                <p class="mt-2 text-xs text-gray-700">Bad request</p>
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                <pre
+                                                    class="w-1/2 overflow-x-auto sm:-mx-6 lg:-mx-8 border-2 border-gray-200 text-black text-white p-2 rounded-lg shadow-md overflow-y-auto scrollbar-none">
+                                                <code class="text-sm text-gray-500" lang="json">
+{
+    "success": false,
+    "message": "ID must be a number"
+}
+                                                </code>
+                                            </pre>
                                             </td>
                                         </tr>
                                     </tbody>
