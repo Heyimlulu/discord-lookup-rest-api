@@ -11,8 +11,8 @@ const router = Router();
 
 router.get('/user/:id', async (req, res) => {
     const controller = new DiscordLookupController();
-    const response = await controller.getUserByID(req.params.id);    
-    
+    const response = await controller.getUserByID(req.params.id);      
+
     if (response.success) {
         res.status(200).json(response);
     } else {

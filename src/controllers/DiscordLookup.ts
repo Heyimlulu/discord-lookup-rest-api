@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -7,24 +6,7 @@ import { User } from '../utils/types';
 import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
-
-interface DataResponse {
-    id: number;
-    username: string;
-    avatar: string | null;
-    isBot?: boolean;
-    banner: string | null;
-    bannerColor: string | null;
-    badges: string[];
-    timestamp: number | null;
-    created: string;
-}
-
-interface LookupResponse {
-    success: boolean;
-    message: string;
-    data: DataResponse | null;
-}
+import { LookupResponse } from '../utils/types';
 
 export default class DiscordLookupController {
 
@@ -33,31 +15,61 @@ export default class DiscordLookupController {
         if (!query) return {
             success: false,
             message: 'No query provided',
-            data: null
+            data: {
+                "id": 0,
+                "username": "unknown",
+                "avatar": null,
+                "banner": null,
+                "bannerColor": null,
+                "badges": [],
+                "timestamp": 0,
+                "created": "Thu, 23 Nov 4023 15:36:10 GMT"
+            }
         };
 
         if (query.length !< 15) return {
             success: false,
             message: 'ID must be 15 characters long',
-            data: null
+            data: {
+                "id": 0,
+                "username": "unknown",
+                "avatar": null,
+                "banner": null,
+                "bannerColor": null,
+                "badges": [],
+                "timestamp": 0,
+                "created": "Thu, 23 Nov 4023 15:36:10 GMT"
+            }
         };
 
         const regex = /^[0-9]+$/;
         if (!regex.test(<string>query)) return {
             success: false,
             message: 'ID must be a number',
-            data: null
+            data: {
+                "id": 0,
+                "username": "unknown",
+                "avatar": null,
+                "banner": null,
+                "bannerColor": null,
+                "badges": [],
+                "timestamp": 0,
+                "created": "Thu, 23 Nov 4023 15:36:10 GMT"
+            }
         };
 
         const id: any = query;
 
-        if (await Logs.findOne({ where: { date: datetime() } })) {
-            await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
-        } else {
-            Logs.create({
-                date: datetime(),
-                count: 1
-            }).then((logs: any) => console.log(logs.toJSON()));
+        // check if db is connected
+        if (Logs.sequelize) {
+            if (await Logs.findOne({ where: { date: datetime() } })) {
+                await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
+            } else {
+                Logs.create({
+                    date: datetime(),
+                    count: 1
+                }).then((logs: any) => console.log(logs.toJSON()));
+            }
         }
 
         try {
@@ -69,19 +81,18 @@ export default class DiscordLookupController {
 
             const user = userInfos(response.data);
 
-            // check if user is a bot
-            const isBot: boolean = user.isBot;
-
-            // log user to database
-            if (await Lookup.findOne({ where: { userid: id } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
-            } else {
-                Lookup.create({
-                    userid: id,
-                    total_search: 1,
-                    does_exist: true,
-                    is_bot: isBot
-                }).then((lookup: any) => console.log(lookup.toJSON()));
+            if (!Lookup.sequelize) {
+                // log user to database
+                if (await Lookup.findOne({ where: { userid: id } })) {
+                    await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+                } else {
+                    Lookup.create({
+                        userid: id,
+                        total_search: 1,
+                        does_exist: true, // check if user is a bot
+                        is_bot: user.isBot,
+                    }).then((lookup: any) => console.log(lookup.toJSON()));
+                }
             }
 
             // return user data
@@ -93,13 +104,15 @@ export default class DiscordLookupController {
         } catch {
             const error = new Error("User not found");
 
-            if (await Lookup.findOne({ where: { userid: id } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
-            } else {
-                Lookup.create({
-                    userid: id,
-                    total_search: 1,
-                }).then((lookup: any) => console.log(lookup.toJSON()));
+            if (!Lookup.sequelize) {
+                if (await Lookup.findOne({ where: { userid: id } })) {
+                    await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+                } else {
+                    Lookup.create({
+                        userid: id,
+                        total_search: 1,
+                    }).then((lookup: any) => console.log(lookup.toJSON()));
+                }
             }
 
             return {
