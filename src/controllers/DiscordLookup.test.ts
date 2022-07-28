@@ -24,20 +24,20 @@ describe('DiscordLookupController', () => {
             expect(process.env.NODE_ENV).toBe('production');
         });
 
-        it("should return a valid Discord user", async () => {
-            // setup mock response
-            mock.get('/api/user/265896171384340480', { body: U.USER_FOUND });
+        // it("should return a valid Discord user", async () => {
+        //     // setup mock response
+        //     mock.get('/api/user/265896171384340480', { body: U.USER_FOUND });
 
-            // create a new DiscordLookupController
-            const controller = new DiscordLookupController();
+        //     // create a new DiscordLookupController
+        //     const controller = new DiscordLookupController();
     
-            // call the getUserByID method
-            const response = await controller.getUserByID('265896171384340480');
+        //     // call the getUserByID method
+        //     const response = await controller.getUserByID('265896171384340480');
     
-            expect(response.success).toBe(true);
-            expect(response.message).toBe("User found");
-            expect(response.data).toBeDefined();
-        });
+        //     expect(response.success).toBe(true);
+        //     expect(response.message).toBe("User found");
+        //     expect(response.data).toBeDefined();
+        // });
 
         it("should return an error if the user doesn't exist", async () => {
             // setup mock response
