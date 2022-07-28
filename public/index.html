@@ -94,6 +94,7 @@
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 Code 200
+                                                <p class="mt-2 text-xs text-gray-700">Success</p>
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 <pre
@@ -120,7 +121,8 @@
                                         <tr class="border-b border-gray-200">
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                Code 400
+                                                Code 400¨
+                                                <p class="mt-2 text-xs text-gray-700">Error</p>
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 <pre
@@ -130,8 +132,16 @@
     "success": false,
     "message": "User not found",
     "data": {
-        "id": number,
-        "created": string
+        "id": "112233445566778899",
+        "username": "unknown",
+        "avatar": null,
+        "banner": null,
+        "bannerColor": null,
+        "badges": [
+        
+        ],
+        "timestamp": 1446828938619.704,
+        "created": "Fri, 06 Nov 2015 16:55:38 GMT"
     }
 }
                                                 </code>
@@ -150,7 +160,17 @@
                                                 <code class="text-sm text-gray-500" lang="json">
 {
     "success": false,
-    "message": "No query provided"
+    "message": "No query provided",
+    data: {
+        "id": 0,
+        "username": "",
+        "avatar": null,
+        "banner": null,
+        "bannerColor": null,
+        "badges": [],
+        "timestamp": 0,
+        "created": ""
+    }
 }
                                                 </code>
                                             </pre>
@@ -168,7 +188,17 @@
                                                 <code class="text-sm text-gray-500" lang="json">
 {
     "success": false,
-    "message": "ID must be 15 characters long"
+    "message": "ID must be 15 characters long",
+    data: {
+        "id": 0,
+        "username": "",
+        "avatar": null,
+        "banner": null,
+        "bannerColor": null,
+        "badges": [],
+        "timestamp": 0,
+        "created": ""
+    }
 }
                                                 </code>
                                             </pre>
@@ -186,7 +216,17 @@
                                                 <code class="text-sm text-gray-500" lang="json">
 {
     "success": false,
-    "message": "ID must be a number"
+    "message": "ID must be a number",
+    data: {
+        "id": 0,
+        "username": "",
+        "avatar": null,
+        "banner": null,
+        "bannerColor": null,
+        "badges": [],
+        "timestamp": 0,
+        "created": ""
+    }
 }
                                                 </code>
                                             </pre>
