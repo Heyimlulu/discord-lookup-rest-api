@@ -7,8 +7,10 @@ import { initDb } from './sequelize/sequelize';
 
 const router: Express = express();
 
-// Database initialization
-initDb();
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
+    // Database initialization
+    initDb();
+}
 
 // Logging
 router.use(morgan('dev'));

@@ -6,10 +6,23 @@ describe('DiscordLookupController', () => {
     describe("getUserByID", () => {
 
         // replace the real XHR object with the mock XHR object before each test
-        beforeEach(() => mock.setup());
+        beforeEach(() => {
+            mock.setup()
+            process.env = {  ...process.env, ...{ NODE_ENV: 'test' } }
+        });
 
         // put the real XHR object back and clear the mocks after each test
-        afterEach(() => mock.teardown());
+        afterEach(() => {
+            mock.teardown();
+            process.env = { ...process.env, ...{ NODE_ENV: 'production' } }
+        });
+
+        it('should reveive process.env variable', () => {
+            expect(process.env.NODE_ENV).toBe('test');
+
+            process.env = { ...process.env, ...{ NODE_ENV: 'production' } }
+            expect(process.env.NODE_ENV).toBe('production');
+        });
 
         it("should return a valid Discord user", async () => {
             // setup mock response

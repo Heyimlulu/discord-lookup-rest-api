@@ -19,22 +19,13 @@ export default class LoggingController {
 
     public async getTodayLogs (): Promise<LogsResponse> {
         try {
-            if (Logs.sequelize) {
-                const response = await Logs.findOne({ where: { date: datetime() } });
+            const response = await Logs.findOne({ where: { date: datetime() } });
 
-                return {
-                    success: true,
-                    message: 'Successfully retrieved today logs',
-                    data: response ? response.toJSON() : null
-                };
-            } else {
-                return {
-                    success: false,
-                    message: 'No database connection',
-                    data: null
-                };
-            }
-
+            return {
+                success: true,
+                message: 'Successfully retrieved today logs',
+                data: response ? response.toJSON() : null,
+            };
         } catch (err) {
             return {
                 success: false,
