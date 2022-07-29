@@ -116,7 +116,7 @@ export default class DiscordLookupController {
                 message: error.message,
                 data: {
                     id,
-                    username: 'unknown',
+                    username: '',
                     avatar: null,
                     banner: null,
                     bannerColor: null,

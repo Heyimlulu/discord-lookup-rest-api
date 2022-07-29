@@ -7,7 +7,8 @@ import { development, production }  from './config';
 let config: object = {};
 
 if (process.env.NODE_ENV === 'production') {
-    config = production;
+    // I use Postgres for production
+    config = production.database_url;
 } else {
     config = development;
 }
