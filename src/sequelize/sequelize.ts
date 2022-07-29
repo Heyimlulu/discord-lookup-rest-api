@@ -4,7 +4,7 @@ import { userModel } from './models/user';
 import { lookupModel } from './models/lookup';
 import { development, production }  from './config';
 
-let config: any = undefined;
+let config: object = {};
 
 if (process.env.NODE_ENV === 'production') {
     config = production;
