@@ -1,4 +1,4 @@
-export const development: object = {
+export const development: any = {
   database: "discordlookupdb",
   username: "root",
   password: "",
@@ -6,7 +6,7 @@ export const development: object = {
   dialect: "mysql"
 };
 
-export const production: object = {
+export const production: any = {
   host: "ec2-34-199-200-115.compute-1.amazonaws.com",
   database: "d9tl9fltjsjvqc",
   username: "nqjzcxpamkaunm",
