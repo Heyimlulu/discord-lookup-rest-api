@@ -33,8 +33,8 @@ router.get('/user/:id', async (req, res) => {
             Lookup.create({
                 userid: response.data.id,
                 total_search: 1,
-                does_exist: true, // check if user is a bot
-                is_bot: response.data.isBot,
+                does_exist: true,
+                is_bot: response.data.isBot ? true : false, // check if user is a bot
             }).then((lookup: any) => console.log(lookup.toJSON()));
         }
 
