@@ -13,7 +13,8 @@ export const userInfos = (data) => {
         ["Bug_Hunter_Level_2", 1 << 14],
         ["Verified_Bot", 1 << 16],
         ["Early_Verified_Bot_Developer", 1 << 17],
-        ["Discord_Certified_Moderator", 1 << 18]
+        ["Discord_Certified_Moderator", 1 << 18],
+        ["BOT_HTTP_INTERACTIONS", 1 << 19]
     ]
 
     // Destructuring
