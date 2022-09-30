@@ -1,6 +1,5 @@
 import { Sequelize } from 'sequelize';
 import { logsModel } from './models/logs';
-import { userModel } from './models/user';
 import { lookupModel } from './models/lookup';
 import { development, production }  from './config';
 
@@ -8,7 +7,7 @@ let config: object = {};
 
 if (process.env.NODE_ENV === 'production') {
     // I use Postgres for production
-    config = production.database_url;
+    config = production;
 } else {
     config = development;
 }
@@ -20,7 +19,6 @@ sequelize.authenticate()
     .catch((err) => console.error(`Could not connect to the database: ${err}`));
 
 export const Logs = logsModel(sequelize);
-export const User = userModel(sequelize);
 export const Lookup = lookupModel(sequelize);
 
 export const initDb = () => {

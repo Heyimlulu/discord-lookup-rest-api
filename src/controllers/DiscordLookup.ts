@@ -2,17 +2,20 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
 import { userInfos }  from '../utils/userinfos';
-import { User } from '../utils/types';
-import { LookupResponse } from '../utils/types';
+import { User } from '../utils/DTOs';
+import { LookupResponse } from '../utils/DTOs';
 import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
+import { Get, Route } from "tsoa";
 
-export default class DiscordLookupController {
+@Route('user')
+export default class UserController {
 
-    public async getUserByID (query: string): Promise<LookupResponse> {
+    @Get('{id}')
+    public async getUserByID (id: string): Promise<LookupResponse> {
 
-        if (!query) return {
+        if (!id) return {
             success: false,
             message: 'No query provided',
             data: {
@@ -27,7 +30,7 @@ export default class DiscordLookupController {
             }
         };
 
-        if (query.length !< 15) return {
+        if (id.length !< 15) return {
             success: false,
             message: 'ID must be 15 characters long',
             data: {
@@ -43,7 +46,7 @@ export default class DiscordLookupController {
         };
 
         const regex = /^[0-9]+$/;
-        if (!regex.test(<string>query)) return {
+        if (!regex.test(<string>id)) return {
             success: false,
             message: 'ID must be a number',
             data: {
@@ -58,7 +61,7 @@ export default class DiscordLookupController {
             }
         };
 
-        const id: any = query;
+        const userId: any = id;
 
         if (await Logs.findOne({ where: { date: datetime() } })) {
             await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
@@ -70,7 +73,7 @@ export default class DiscordLookupController {
         }
 
         try {
-            const response = await axios.get<User>(`https://discord.com/api/v9/users/${id}`, {
+            const response = await axios.get<User>(`https://discord.com/api/v9/users/${userId}`, {
                 headers: {
                     Authorization: `Bot ${process.env.TOKEN}`
                 }
@@ -82,11 +85,11 @@ export default class DiscordLookupController {
             const isBot: boolean = user.isBot;
 
             // log user to database
-            if (await Lookup.findOne({ where: { userid: id } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+            if (await Lookup.findOne({ where: { userid: userId } })) {
+                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
             } else {
                 Lookup.create({
-                    userid: id,
+                    userid: userId,
                     total_search: 1,
                     does_exist: true,
                     is_bot: isBot
@@ -102,11 +105,11 @@ export default class DiscordLookupController {
         } catch {
             const error = new Error("User not found");
 
-            if (await Lookup.findOne({ where: { userid: id } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: id }} )
+            if (await Lookup.findOne({ where: { userid: userId } })) {
+                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
             } else {
                 Lookup.create({
-                    userid: id,
+                    userid: userId,
                     total_search: 1,
                 }).then((lookup: any) => console.log(lookup.toJSON()));
             }
@@ -115,14 +118,14 @@ export default class DiscordLookupController {
                 success: false,
                 message: error.message,
                 data: {
-                    id,
+                    id: userId,
                     username: '',
                     avatar: null,
                     banner: null,
                     bannerColor: null,
                     badges: [],
-                    timestamp: ((id / 4194304) + 1420070400000),
-                    created: new Date(((id / 4194304) + 1420070400000)).toUTCString()
+                    timestamp: ((userId / 4194304) + 1420070400000),
+                    created: new Date(((userId / 4194304) + 1420070400000)).toUTCString()
                 }
             };
         }

@@ -1,4 +1,4 @@
-import { LookupResponse, ErrorResponse } from '../utils/types';
+import { LookupResponse, ErrorResponse } from '../utils/DTOs';
 
 export const USER_FOUND: LookupResponse  = {
     "success": true,

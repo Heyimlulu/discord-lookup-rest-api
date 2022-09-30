@@ -1,4 +1,4 @@
-import { LogsResponse } from '../utils/types';
+import { LogsResponse } from '../utils/DTOs';
 
 export const TODAY_LOGS: LogsResponse = {
     "success": true,

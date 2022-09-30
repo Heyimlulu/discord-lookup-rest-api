@@ -1,4 +1,4 @@
-import DiscordLookupController from "./DiscordLookup";
+import UserController from "./DiscordLookup";
 import mock from 'xhr-mock';
 import * as U from '../mocks/';
 
@@ -44,7 +44,7 @@ describe('DiscordLookupController', () => {
             mock.get('/api/user/112233445566778899', { body: U.USER_NOT_FOUND });
 
             // create a new DiscordLookupController
-            const controller = new DiscordLookupController();
+            const controller = new UserController();
     
             // call the getUserByID method
             const response = await controller.getUserByID('112233445566778899');
@@ -58,7 +58,7 @@ describe('DiscordLookupController', () => {
             mock.get('/api/user/', { body: U.NO_QUERY });
 
             // create a new DiscordLookupController
-            const controller = new DiscordLookupController();
+            const controller = new UserController();
     
             // call the getUserByID method
             const response = await controller.getUserByID('');
@@ -72,7 +72,7 @@ describe('DiscordLookupController', () => {
             mock.get('/api/user/123456789012345', { body: U.QUERY_TOO_SHORT });
 
             // create a new DiscordLookupController
-            const controller = new DiscordLookupController();
+            const controller = new UserController();
     
             // call the getUserByID method
             const response = await controller.getUserByID('1234567890123');
@@ -86,7 +86,7 @@ describe('DiscordLookupController', () => {
             mock.get('/api/user/abcdefghijklmnop', { body: U.QUERY_NOT_NUMBER });
 
             // create a new DiscordLookupController
-            const controller = new DiscordLookupController();
+            const controller = new UserController();
     
             // call the getUserByID method
             const response = await controller.getUserByID('abcdefghijklmnopqrstuvwxyz');

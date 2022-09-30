@@ -1,0 +1,131 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"DataResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string",
+						"nullable": true
+					},
+					"isBot": {
+						"type": "boolean"
+					},
+					"banner": {
+						"type": "string",
+						"nullable": true
+					},
+					"bannerColor": {
+						"type": "string",
+						"nullable": true
+					},
+					"badges": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"timestamp": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"created": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"avatar",
+					"banner",
+					"bannerColor",
+					"badges",
+					"timestamp",
+					"created"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LookupResponse": {
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/DataResponse"
+					}
+				},
+				"required": [
+					"success",
+					"message",
+					"data"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "discord-lookup-api",
+		"version": "3.0.0",
+		"description": "A simple API to lookup for a Discord User or Bot ID.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Lucas"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/user/{id}": {
+			"get": {
+				"operationId": "GetUserByID",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LookupResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

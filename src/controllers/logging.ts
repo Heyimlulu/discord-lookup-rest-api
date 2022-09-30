@@ -15,7 +15,7 @@ interface LogsResponse {
     data: DataResponse | null;
 }
 
-export default class LoggingController {
+export default class LogsController {
 
     public async getTodayLogs (): Promise<LogsResponse> {
         try {

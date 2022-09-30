@@ -1,9 +1,4 @@
-export type Login = {
-    username: string;
-    password: string;
-}
-
-export type User = {
+export interface User {
     id: Number;
     username: string;
     avatar: string;
@@ -19,7 +14,7 @@ export type User = {
     mfa_enabled: boolean;
 }
 
-export type DataResponse = {
+export interface DataResponse {
     id: number;
     username: string;
     avatar: string | null;
@@ -31,18 +26,18 @@ export type DataResponse = {
     created: string;
 }
 
-export type LookupResponse = {
+export interface LookupResponse {
     success: boolean;
     message: string;
     data: DataResponse;
 }
 
-export type ErrorResponse = {
+export interface ErrorResponse {
     success: boolean;
     message: string;
 }
 
-export type Logs = {
+export interface Logs {
     id: number;
     date: string;
     count: number;
@@ -50,7 +45,7 @@ export type Logs = {
     updatedAt: string;
 }
 
-export type LogsResponse = {
+export interface LogsResponse {
     success: boolean;
     message: string;
     data: Logs;

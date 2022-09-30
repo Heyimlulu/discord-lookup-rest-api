@@ -19,12 +19,12 @@ export const lookupModel = (sequelize: Sequelize) => {
         does_exist: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: 0
         },
         is_bot: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: 0
         },
         createdAt: {
             type: DataTypes.DATE,

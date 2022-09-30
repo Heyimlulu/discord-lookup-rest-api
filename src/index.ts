@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import routes from './routes/routes';
 import path from "path";
 import { initDb } from './sequelize/sequelize';
+import swaggerUi from 'swagger-ui-express';
 
 const router: Express = express();
 
@@ -33,15 +34,19 @@ router.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-// Website routes
-router.use('/', express.static(path.join(__dirname, '../public')));
+// Swagger
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(undefined, {
+    swaggerOptions: {
+        url: '/swagger.json',
+    },
+}));
 
-router.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+router.get('/swagger.json', (_req, res) => {
+    res.sendFile(path.join(__dirname, '../public/swagger.json'));
 });
 
 // API Routes
-router.use('/api', routes);
+router.use('/', routes);
 
 // Error handling
 router.use((req: Request, res: Response) => {

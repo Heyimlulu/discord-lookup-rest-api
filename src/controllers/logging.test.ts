@@ -1,4 +1,4 @@
-import LoggingController from "./logging";
+import LogsController from "./logging";
 import mock from 'xhr-mock';
 import * as L from '../mocks/';
 
