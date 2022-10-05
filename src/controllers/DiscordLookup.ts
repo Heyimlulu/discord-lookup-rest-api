@@ -3,17 +3,27 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { userInfos }  from '../utils/userinfos';
 import { User } from '../utils/DTOs';
-import { LookupResponse } from '../utils/DTOs';
+import { LookupResponse, ErrorResponse, ErrorLookupResponse } from '../utils/DTOs';
 import { Logs, Lookup } from '../sequelize/sequelize';
 import { literal } from "sequelize";
 import { datetime } from '../utils/datetime';
-import { Get, Route } from "tsoa";
+import { Get, Query, Response, Route, SuccessResponse } from "tsoa";
 
 @Route('user')
 export default class UserController {
 
+    /**
+     * Get a Discord user by his ID
+     * @param id Discord user ID
+     * @returns Discord user data
+     */
     @Get('{id}')
-    public async getUserByID (id: string): Promise<LookupResponse> {
+    @SuccessResponse("200", "User found")
+    @Response<ErrorResponse>("400", "No query provided")
+    @Response<ErrorLookupResponse>("404", "User not found")
+    @Response<ErrorResponse>("406", "ID must be a number")
+    @Response<ErrorResponse>("411", "ID must be 15 characters long")
+    public async getUserByID (@Query() id: string): Promise<LookupResponse> {
 
         if (!id) return {
             success: false,

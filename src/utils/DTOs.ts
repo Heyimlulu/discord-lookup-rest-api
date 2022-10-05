@@ -14,6 +14,9 @@ export interface User {
     mfa_enabled: boolean;
 }
 
+/**
+ * Data returned by the Discord API
+ */
 export interface DataResponse {
     id: number;
     username: string;
@@ -26,14 +29,29 @@ export interface DataResponse {
     created: string;
 }
 
+/**
+ * Data returned by the API
+ */
 export interface LookupResponse {
     success: boolean;
     message: string;
     data: DataResponse;
 }
 
+/**
+ * Error returned by the API
+ */
+export interface ErrorLookupResponse {
+    success: false;
+    message: string;
+    data: DataResponse;
+}
+
+/**
+ * Error response
+ */
 export interface ErrorResponse {
-    success: boolean;
+    success: false;
     message: string;
 }
 
