@@ -1,20 +1,21 @@
-FROM node:14-alpine
+FROM node:alpine
 
-# Create directory
-WORKDIR /usr/src/app
+EXPOSE 8080
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY package*.json ./
+ENV TOKEN=OTAwMDY5NDg0MjEwMDMyNzEx.Gba1up.FjfACbNqixhh9Owjjzl8awsNTXLIm0tihDJIUw
 
-RUN npm install
-RUN npm install -g ts-node
-# If you are building your code for production
-# RUN npm ci --only=production
+WORKDIR /usr
+
+COPY package.json ./
+COPY tsconfig.json ./
+COPY tsoa.json ./
+COPY src ./src
+
+RUN yarn install
+RUN yarn add ts-node
+RUN yarn run build
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
-CMD [ "ts-node", "index.ts"]
+CMD [ "yarn", "start"]
