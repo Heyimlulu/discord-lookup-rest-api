@@ -2,8 +2,6 @@ FROM node:alpine
 
 EXPOSE 8080
 
-ENV TOKEN=OTAwMDY5NDg0MjEwMDMyNzEx.Gba1up.FjfACbNqixhh9Owjjzl8awsNTXLIm0tihDJIUw
-
 WORKDIR /usr
 
 COPY package.json ./

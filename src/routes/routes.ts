@@ -15,15 +15,15 @@ router.get('/user/:id', async (req, res) => {
     }
 });
 
-router.get('/logs/today', async (_req, res) => {
-    const controller = new LogsController();
-    const response = await controller.getTodayLogs();
+// router.get('/logs/today', async (_req, res) => {
+//     const controller = new LogsController();
+//     const response = await controller.getTodayLogs();
 
-    if (response.success) {
-        res.status(200).json(response);
-    } else {
-        res.status(400).json(response);
-    }
-});
+//     if (response.success) {
+//         res.status(200).json(response);
+//     } else {
+//         res.status(400).json(response);
+//     }
+// });
 
 export = router;

@@ -23,7 +23,7 @@ export default class UserController {
     @Response<ErrorLookupResponse>("404", "User not found")
     @Response<ErrorResponse>("406", "ID must be a number")
     @Response<ErrorResponse>("411", "ID must be 15 characters long")
-    public async getUserByID (@Query() id: string): Promise<LookupResponse> {
+    public async getUserByID (id: string): Promise<LookupResponse> {
 
         if (!id) return {
             success: false,
@@ -73,14 +73,14 @@ export default class UserController {
 
         const userId: any = id;
 
-        if (await Logs.findOne({ where: { date: datetime() } })) {
-            await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
-        } else {
-            Logs.create({
-                date: datetime(),
-                count: 1
-            }).then((logs: any) => console.log(logs.toJSON()));
-        }
+        // if (await Logs.findOne({ where: { date: datetime() } })) {
+        //     await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
+        // } else {
+        //     Logs.create({
+        //         date: datetime(),
+        //         count: 1
+        //     }).then((logs: any) => console.log(logs.toJSON()));
+        // }
 
         try {
             const response = await axios.get<User>(`https://discord.com/api/v9/users/${userId}`, {
@@ -95,16 +95,16 @@ export default class UserController {
             const isBot: boolean = user.isBot;
 
             // log user to database
-            if (await Lookup.findOne({ where: { userid: userId } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
-            } else {
-                Lookup.create({
-                    userid: userId,
-                    total_search: 1,
-                    does_exist: true,
-                    is_bot: isBot
-                }).then((lookup: any) => console.log(lookup.toJSON()));
-            }
+            // if (await Lookup.findOne({ where: { userid: userId } })) {
+            //     await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
+            // } else {
+            //     Lookup.create({
+            //         userid: userId,
+            //         total_search: 1,
+            //         does_exist: true,
+            //         is_bot: isBot
+            //     }).then((lookup: any) => console.log(lookup.toJSON()));
+            // }
 
             // return user data
             return {
@@ -115,14 +115,14 @@ export default class UserController {
         } catch {
             const error = new Error("User not found");
 
-            if (await Lookup.findOne({ where: { userid: userId } })) {
-                await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
-            } else {
-                Lookup.create({
-                    userid: userId,
-                    total_search: 1,
-                }).then((lookup: any) => console.log(lookup.toJSON()));
-            }
+            // if (await Lookup.findOne({ where: { userid: userId } })) {
+            //     await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
+            // } else {
+            //     Lookup.create({
+            //         userid: userId,
+            //         total_search: 1,
+            //     }).then((lookup: any) => console.log(lookup.toJSON()));
+            // }
 
             return {
                 success: false,
