@@ -14,7 +14,8 @@ export const userInfos = (data) => {
         ["Verified_Bot", 1 << 16],
         ["Early_Verified_Bot_Developer", 1 << 17],
         ["Discord_Certified_Moderator", 1 << 18],
-        ["BOT_HTTP_INTERACTIONS", 1 << 19]
+        ["Bot_HTTP_Interactions", 1 << 19],
+        ["Active_Developer", 1 << 22],
     ]
 
     // Destructuring
