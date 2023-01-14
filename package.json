@@ -5,8 +5,7 @@
   "description": "A simple API to lookup for a Discord User or Bot ID.",
   "main": "index.ts",
   "scripts": {
-    "start": "node build/index.js",
-    "start::app": "ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
     "predev": "yarn swagger",
     "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec\"",
     "build": "tsc",
