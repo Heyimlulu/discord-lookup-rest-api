@@ -2,10 +2,11 @@ import http from 'http';
 import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
 import v1Routes from './routes/v1';
-import path from "path";
 import { initDb } from './sequelize/sequelize';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger.json';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router: Express = express();
 
@@ -62,5 +63,5 @@ router.use((req: Request, res: Response) => {
 2
 // Server
 const httpServer = http.createServer(router);
-const PORT = process.env.PORT || 8080;
-httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+const port = process.env.PORT || 8080;
+httpServer.listen(port, () => console.log(`The server is running on port ${port}`));

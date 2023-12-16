@@ -1,4 +1,20 @@
 import swaggerAutogen from "swagger-autogen";
+import dotenv from 'dotenv';
+dotenv.config();
+
+const env = process.env.NODE_ENV || 'development';
+const port = process.env.PORT || 8080;
+
+let serverUrl;
+
+switch(env) {
+    case 'production':
+        serverUrl = 'https://discord-lookup-rest-api.deeploy.ing/api';
+        break;
+    default:
+        serverUrl = `http://localhost:${port}/api`;
+        break;
+}
 
 const doc = {
     info: {
@@ -8,8 +24,8 @@ const doc = {
     },
     servers: [
         {
-            url: 'http://localhost:8080/api',
-            description: ''
+            url: serverUrl,
+            description: `${env} server}`,
         },
     ],
 };
