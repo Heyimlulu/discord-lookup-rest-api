@@ -1,10 +1,11 @@
 import http from 'http';
 import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
-import routes from './routes/routes';
+import v1Routes from './routes/v1';
 import path from "path";
 import { initDb } from './sequelize/sequelize';
 import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
 
 const router: Express = express();
 
@@ -30,25 +31,26 @@ router.use((req: Request, res: Response, next: NextFunction) => {
     res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
     // set the CORS method headers
     if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET');
+        res.header('Access-Control-Allow-Methods', 'PUT,POST,GET');
         return res.status(200).json({});
     }
     next();
 });
 
-// Swagger
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(undefined, {
-    swaggerOptions: {
-        url: '/swagger.json',
-    },
-}));
-
-router.get('/swagger.json', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../public/swagger.json'));
+// Index route
+router.get('/', (_req, res) => {
+    res.redirect('/api-docs');
 });
 
+// Swagger
+router.get('/api-docs/swagger.json', (_req, res) => {
+    res.json(swaggerDocument);
+});
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // API Routes
-router.use('/', routes);
+router.use('/api', v1Routes);
 
 // Error handling
 router.use((req: Request, res: Response) => {

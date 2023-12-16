@@ -7,29 +7,40 @@
 		"responses": {},
 		"schemas": {
 			"DataResponse": {
-				"description": "Data returned by the Discord API",
 				"properties": {
 					"id": {
-						"type": "number",
-						"format": "double"
+						"type": "string"
 					},
 					"username": {
 						"type": "string"
+					},
+					"discriminator": {
+						"type": "string"
+					},
+					"globalName": {
+						"type": "string",
+						"nullable": true
 					},
 					"avatar": {
 						"type": "string",
 						"nullable": true
 					},
-					"isBot": {
+					"bot": {
+						"type": "boolean"
+					},
+					"system": {
 						"type": "boolean"
 					},
 					"banner": {
 						"type": "string",
 						"nullable": true
 					},
-					"bannerColor": {
+					"accentColor": {
 						"type": "string",
 						"nullable": true
+					},
+					"premiumType": {
+						"type": "string"
 					},
 					"badges": {
 						"items": {
@@ -39,8 +50,7 @@
 					},
 					"timestamp": {
 						"type": "number",
-						"format": "double",
-						"nullable": true
+						"format": "double"
 					},
 					"created": {
 						"type": "string"
@@ -49,9 +59,14 @@
 				"required": [
 					"id",
 					"username",
+					"discriminator",
+					"globalName",
 					"avatar",
+					"bot",
+					"system",
 					"banner",
-					"bannerColor",
+					"accentColor",
+					"premiumType",
 					"badges",
 					"timestamp",
 					"created"
@@ -59,11 +74,11 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"LookupResponse": {
-				"description": "Data returned by the API",
+			"SearchResponse": {
 				"properties": {
-					"success": {
-						"type": "boolean"
+					"status": {
+						"type": "number",
+						"format": "double"
 					},
 					"message": {
 						"type": "string"
@@ -73,55 +88,8 @@
 					}
 				},
 				"required": [
-					"success",
-					"message",
-					"data"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ErrorResponse": {
-				"description": "Error response",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"enum": [
-							false
-						],
-						"nullable": false
-					},
-					"message": {
-						"type": "string"
-					}
-				},
-				"required": [
-					"success",
+					"status",
 					"message"
-				],
-				"type": "object",
-				"additionalProperties": false
-			},
-			"ErrorLookupResponse": {
-				"description": "Error returned by the API",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"enum": [
-							false
-						],
-						"nullable": false
-					},
-					"message": {
-						"type": "string"
-					},
-					"data": {
-						"$ref": "#/components/schemas/DataResponse"
-					}
-				},
-				"required": [
-					"success",
-					"message",
-					"data"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -142,7 +110,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/user/{id}": {
+		"/v1/user/{id}": {
 			"get": {
 				"operationId": "GetUserByID",
 				"responses": {
@@ -151,7 +119,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/LookupResponse"
+									"$ref": "#/components/schemas/SearchResponse"
 								}
 							}
 						}
@@ -161,7 +129,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/SearchResponse"
 								}
 							}
 						}
@@ -171,7 +139,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorLookupResponse"
+									"$ref": "#/components/schemas/SearchResponse"
 								}
 							}
 						}
@@ -181,7 +149,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/SearchResponse"
 								}
 							}
 						}
@@ -191,17 +159,15 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/ErrorResponse"
+									"$ref": "#/components/schemas/SearchResponse"
 								}
 							}
 						}
 					}
 				},
-				"description": "Get a Discord user by his ID",
 				"security": [],
 				"parameters": [
 					{
-						"description": "Discord user ID",
 						"in": "path",
 						"name": "id",
 						"required": true,

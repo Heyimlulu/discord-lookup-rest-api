@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "strict": true,
     "noImplicitAny": false,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
   }
 }

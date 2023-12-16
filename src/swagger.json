@@ -1,0 +1,36 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v1.0.0",
+    "title": "Discord Lookup Rest API",
+    "description": "An API to search for a Discord User or Bot by his snowflake ID."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/user/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
