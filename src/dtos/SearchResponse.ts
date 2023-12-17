@@ -1,21 +1,33 @@
-export interface SearchResponse {
+export interface UserResponse {
     status: number;
-    message: string;
-    data?: DataResponse;
+    success: boolean;
+    message?: string;
+    data?: LookupResponse;
 }
 
-interface DataResponse {
+export interface LookupResponse {
+    type: string;
     id: string;
     username: string;
     discriminator: string;
     globalName: string | null;
-    avatar: string | null;
-    bot: boolean;
-    system: boolean;
-    banner: string | null;
-    accentColor: string | null;
-    premiumType: string;
-    badges: Array<string>;
+    avatar: AvatarAndBanner;
+    isBot: boolean;
+    isSystem: boolean;
+    banner: AvatarAndBanner;
+    bannerColor: string | null;
+    flags: Array<Flags>;
     timestamp: number;
-    created: string;
+    createdAt: string;
+    accountAge: string;
+}
+
+interface AvatarAndBanner {
+    id: string | null;
+    url: string | null;
+}
+
+interface Flags {
+    name: string;
+    value: string;
 }

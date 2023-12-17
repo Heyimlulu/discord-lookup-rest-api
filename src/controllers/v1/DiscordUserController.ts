@@ -1,16 +1,22 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config();
-import { SearchResponse, User } from '../../dtos';
+import { UserResponse, LookupResponse, User } from '../../dtos';
 // import { Logs, Lookup } from '../../sequelize/sequelize';
 // import { literal } from "sequelize";
 // import { datetime } from '../../utils/datetime';
 import dayjs from 'dayjs';
+import { sys } from 'typescript';
+
+interface Flags {
+    name: string;
+    value: string;
+}
 
 export default class DiscordUserController {
 
-    private getUserInfos (data: User) {
-        const { id, username, discriminator, global_name, avatar, bot, system, banner, accent_color, premium_type, flags } = data;
+    private getUserInfos (data: User): LookupResponse {
+        const { id, username, discriminator, global_name, avatar, bot, system, banner, banner_color, premium_type, flags } = data;
 
         const USER_FLAGS = {
             DISCORD_EMPLOYEE: 1 << 0,
@@ -30,68 +36,98 @@ export default class DiscordUserController {
             ACTIVE_DEVELOPER: 1 << 22
         };
 
-        const PREMIUM_TYPES = {
+        const FLAGS_NAMES = {
+            DISCORD_EMPLOYEE: 'Discord Employee',
+            PARTNERED_SERVER_OWNER: 'Partnered Server Owner',
+            HYPESQUAD_EVENTS_MEMBER: 'Hypesquad Events Member',
+            BUG_HUNTER_LEVEL_1: 'Bug Hunter Level 1',
+            HYPESQUAD_HOUSE_BRAVERY: 'House Bravery Member',
+            HYPESQUAD_HOUSE_BRILLANCE: 'House Brilliance Member',
+            HYPESQUAD_HOUSE_BALANCE: 'House Balance Member',
+            EARLY_NITRO_SUPPORTER: 'Early Nitro Supporter',
+            TEAM_PSEUDO_USER: 'Team Pseudo User',
+            BUG_HUNTER_LEVEL_2: 'Bug Hunter Level 2',
+            VERIFIED_BOT: 'Verified Bot',
+            EARLY_VERIFIED_BOT_DEVELOPER: 'Early Verified Bot Developer',
+            CERTIFIED_MODERATOR: 'Moderator Programs Alumni',
+            BOT_HTTP_INTERACTIONS: 'Bot uses only HTTP interactions and is shown in the online member list',
+            ACTIVE_DEVELOPER: 'Active Developer'
+        };
+
+        const USER_PREMIUM_TYPES = {
             NONE: 0,
             NITRO_CLASSIC: 1,
             NITRO: 2,
             NITRO_BASIC: 3,
         };
 
-        let badges: string[] = [];
-        for (const [badge, value] of Object.entries(USER_FLAGS)) {
+        let flagsList: Flags[] = [];
+        for (const [key, value] of Object.entries(USER_FLAGS)) {
             if ((flags & value) === value) {
-                badges.push(badge);
+                flagsList.push({ name: key, value: FLAGS_NAMES[key] });
             }
         }
         
-        if (!badges.includes('VERIFIED_BOT') && bot) {
-            badges.push('BOT')
-        };
+        if (!flagsList.includes({ name: 'VERIFIED_BOT', value: 'Verified Bot' }) && bot) {
+            flagsList.push({ name: 'BOT', value: 'Bot' });
+        }
+
+        if (Object.keys(USER_PREMIUM_TYPES)[premium_type] !== 'NONE') {
+            flagsList.push({ name: 'PREMIUM', value: Object.keys(USER_PREMIUM_TYPES)[premium_type] });
+        }
 
         // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
         let timestamp: number = ((parseInt(id) / 4194304) + 1420070400000);
         // Reverse formula to get the userID
         // const userId: number = ((timestamp - 1420070400000) * 4194304)
 
-        let lang = dayjs().locale()
-
         return {
+            type: !bot ? 'USER' : system ? 'SYSTEM' : 'BOT',
             id: id,
             username: username,
             discriminator: discriminator,
             globalName: global_name || null,
-            avatar: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}` : null,
-            bot: bot ? true : false,
-            system: system ? true : false,
-            banner: banner ? `https://cdn.discordapp.com/banners/${id}/${banner}` : null,
-            accentColor: accent_color?.toString(16) || null,
-            premiumType: Object.keys(PREMIUM_TYPES)[premium_type],
-            badges: badges.length ? badges : [],
+            avatar: {
+                id: avatar ? avatar : null,
+                url: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}` : null,
+            },
+            isBot: bot ? true : false,
+            isSystem: system ? true : false,
+            banner: {
+                id: banner ? banner : null,
+                url: banner ? `https://cdn.discordapp.com/banners/${id}/${banner}.${banner.startsWith('a_') ? 'gif' : 'png'}` : null,
+            },
+            bannerColor: banner_color || null,
+            flags: flagsList.length ? flagsList : [],
             timestamp: dayjs(timestamp).unix(),
-            created: dayjs(timestamp).locale(lang).format('dddd, MMMM D, YYYY h:mm A'),
+            createdAt: dayjs(timestamp).format('dddd, MMMM D YYYY, hh:mm:ss A'),
+            accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), 'year', true))} years`,
         }
     }
 
-    public async getUserByID (id: string): Promise<SearchResponse> {
+    public async getUserByID (id: string): Promise<UserResponse> {
 
         if (!id) {
             return {
                 status: 400,
-                message: 'No query provided',
+                success: false,
+                message: "ID is required"
             }
         }
 
         if (id.length !< 15) {
             return {
                 status: 411,
-                message: 'ID must be 15 characters long',
+                success: false,
+                message: "ID too short"
             }
         }
 
         if (!/^[0-9]+$/.test(<string>id))  {
             return {
                 status: 406,
-                message: 'ID must be a number',
+                success: false,
+                message: "Invalid ID"
             }
         }
 
@@ -127,15 +163,12 @@ export default class DiscordUserController {
             //     }).then((lookup: any) => console.log(lookup.toJSON()));
             // }
 
-            // return user data
             return {
                 status: 200,
-                message: 'User found',
+                success: true,
                 data
             };
         } catch {
-            const error = new Error("User not found");
-
             // if (await Lookup.findOne({ where: { userid: userId } })) {
             //     await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
             // } else {
@@ -147,7 +180,8 @@ export default class DiscordUserController {
 
             return {
                 status: 404,
-                message: error.message,
+                success: false,
+                message: new Error('User not found').message,
             };
         }
     }
