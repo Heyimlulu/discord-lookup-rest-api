@@ -10,24 +10,25 @@ export interface LookupResponse {
     id: string;
     username: string;
     discriminator: string;
-    globalName: string | null;
-    avatar: AvatarAndBanner;
-    isBot: boolean;
-    isSystem: boolean;
-    banner: AvatarAndBanner;
-    bannerColor: string | null;
-    flags: Array<Flags>;
+    displayName?: string;
+    avatar?: AvatarAndBanner;
+    isBot?: boolean;
+    isSystem?: boolean;
+    banner?: AvatarAndBanner;
+    avatarDecoration?: string;
+    accentColor?: string;
+    flags?: Array<Flags>;
     timestamp: number;
     createdAt: string;
     accountAge: string;
 }
 
 interface AvatarAndBanner {
-    id: string | null;
-    url: string | null;
+    id?: string;
+    url?: string;
 }
 
 interface Flags {
     name: string;
-    value: string;
+    image: string;
 }

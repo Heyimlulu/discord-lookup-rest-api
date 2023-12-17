@@ -1,22 +1,22 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
 import { UserResponse, LookupResponse, User } from '../../dtos';
 // import { Logs, Lookup } from '../../sequelize/sequelize';
 // import { literal } from "sequelize";
 // import { datetime } from '../../utils/datetime';
 import dayjs from 'dayjs';
-import { sys } from 'typescript';
+import { getEnvironmentBaseUrl } from '../../utils/environment';
 
 interface Flags {
     name: string;
-    value: string;
+    image: string;
 }
 
 export default class DiscordUserController {
 
+    private baseUrl: string = getEnvironmentBaseUrl() + '/static';
+
     private getUserInfos (data: User): LookupResponse {
-        const { id, username, discriminator, global_name, avatar, bot, system, banner, banner_color, premium_type, flags } = data;
+        const { id, username, discriminator, global_name, avatar, bot, system, banner, banner_color, premium_type, flags, avatar_decoration_data } = data;
 
         const USER_FLAGS = {
             DISCORD_EMPLOYEE: 1 << 0,
@@ -61,19 +61,21 @@ export default class DiscordUserController {
             NITRO_BASIC: 3,
         };
 
+        const type = !bot ? 'USER' : system ? 'SYSTEM' : 'BOT';
+
         let flagsList: Flags[] = [];
         for (const [key, value] of Object.entries(USER_FLAGS)) {
             if ((flags & value) === value) {
-                flagsList.push({ name: key, value: FLAGS_NAMES[key] });
+                flagsList.push({ name: FLAGS_NAMES[key], image: `${this.baseUrl}/${FLAGS_NAMES[key].replaceAll(' ', '_')}.svg` });
             }
         }
         
-        if (!flagsList.includes({ name: 'VERIFIED_BOT', value: 'Verified Bot' }) && bot) {
-            flagsList.push({ name: 'BOT', value: 'Bot' });
+        if (!flagsList.includes({ name: 'Verified Bot', image: 'Verified Bot' }) && bot) {
+            flagsList.push({ name: 'Bot', image: `${this.baseUrl}/Bot.svg` });
         }
 
         if (Object.keys(USER_PREMIUM_TYPES)[premium_type] !== 'NONE') {
-            flagsList.push({ name: 'PREMIUM', value: Object.keys(USER_PREMIUM_TYPES)[premium_type] });
+            flagsList.push({ name: Object.keys(USER_PREMIUM_TYPES)[premium_type], image: `${this.baseUrl}/Nitro.svg` });
         }
 
         // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
@@ -81,28 +83,31 @@ export default class DiscordUserController {
         // Reverse formula to get the userID
         // const userId: number = ((timestamp - 1420070400000) * 4194304)
 
-        return {
-            type: !bot ? 'USER' : system ? 'SYSTEM' : 'BOT',
+        const userInfos: LookupResponse = {
+            type,
             id: id,
             username: username,
             discriminator: discriminator,
-            globalName: global_name || null,
+            displayName: global_name,
             avatar: {
-                id: avatar ? avatar : null,
-                url: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}` : null,
+                id: avatar,
+                url: avatar && `https://cdn.discordapp.com/avatars/${id}/${avatar}.${avatar.startsWith('a_') ? 'gif' : 'png'}` ,
             },
-            isBot: bot ? true : false,
-            isSystem: system ? true : false,
+            isBot: bot,
+            isSystem: system,
             banner: {
-                id: banner ? banner : null,
-                url: banner ? `https://cdn.discordapp.com/banners/${id}/${banner}.${banner.startsWith('a_') ? 'gif' : 'png'}` : null,
+                id: banner,
+                url: banner && `https://cdn.discordapp.com/banners/${id}/${banner}.${banner.startsWith('a_') ? 'gif' : 'png'}`,
             },
-            bannerColor: banner_color || null,
+            avatarDecoration: avatar_decoration_data && `https://cdn.discordapp.com/avatar-decoration-presets/${avatar_decoration_data.asset}`,
+            accentColor: banner_color,
             flags: flagsList.length ? flagsList : [],
             timestamp: dayjs(timestamp).unix(),
             createdAt: dayjs(timestamp).format('dddd, MMMM D YYYY, hh:mm:ss A'),
             accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), 'year', true))} years`,
         }
+
+        return userInfos;
     }
 
     public async getUserByID (id: string): Promise<UserResponse> {

@@ -5,6 +5,7 @@ import routes from './routes';
 import { initDb } from './sequelize/sequelize';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
+import { getEnvironmentBaseUrl } from './utils/environment';
 
 const router: Express = express();
 
@@ -40,22 +41,11 @@ router.get('/', (_req, res) => {
     res.redirect('/api-docs');
 });
 
+router.use('/static', express.static('./public/assets/flags'));
+
 const environment = process.env.NODE_ENV || 'development';
-let port = process.env.PORT || 8080;
-
-let serverUrl;
-
-switch(environment) {
-    case 'production':
-        serverUrl = 'https://discord-lookup-rest-api.deeploy.ing';
-        break;
-    case 'development':
-        serverUrl = `http://localhost:${port}`;
-        break;
-    default:
-        serverUrl = `http://localhost:${port}`;
-        break;
-}
+const port = process.env.PORT || '8080';
+const serverUrl = getEnvironmentBaseUrl();
 
 const options = {
     swaggerDefinition: {
