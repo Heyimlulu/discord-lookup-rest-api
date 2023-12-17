@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'developme
     initDb();
 }
 */
-const excludedDomains = ["discord.name", "localhost"];
+const excludedDomains = ["discord.name"];
 const apiLimiter = rateLimit({
   windowMs: 2 * 60 * 1000, // 2 minutes
   max: 10, // limit each IP to 10 requests per windowMs
@@ -30,8 +30,6 @@ const apiLimiter = rateLimit({
   },
   skip: (req: Request, res: Response) => {
     const requestDomain = req.hostname;
-    console.log(requestDomain);
-
     return excludedDomains.includes(requestDomain);
   },
 });
