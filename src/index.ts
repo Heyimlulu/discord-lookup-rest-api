@@ -1,12 +1,11 @@
 import http from 'http';
 import express, {Express, NextFunction, Request, Response} from 'express';
 import morgan from 'morgan';
-import v1Routes from './routes/v1';
+import routes from './routes';
 import { initDb } from './sequelize/sequelize';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from './swagger.json';
-import dotenv from 'dotenv';
-dotenv.config();
+import swaggerJSDoc from 'swagger-jsdoc';
+import swagger from '../public/swagger.json';
 
 const router: Express = express();
 
@@ -38,20 +37,25 @@ router.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-// Index route
 router.get('/', (_req, res) => {
     res.redirect('/api-docs');
 });
 
-// Swagger
-router.get('/api-docs/swagger.json', (_req, res) => {
-    res.json(swaggerDocument);
-});
+const options = {
+    swaggerDefinition: {
+      info: {
+        version: 'v1.0.0',
+        title: 'Discord Lookup Rest API',
+        description: 'An API to search for a Discord User or Bot by his snowflake ID.',
+      },
+    },
+    apis: ['./swagger.json'],
+  };
 
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const specs = swaggerJSDoc(options);
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// API Routes
-router.use('/api', v1Routes);
+router.use('/', routes);
 
 // Error handling
 router.use((req: Request, res: Response) => {
@@ -60,7 +64,7 @@ router.use((req: Request, res: Response) => {
         message: error.message
     });
 });
-2
+
 // Server
 const httpServer = http.createServer(router);
 const port = process.env.PORT || 8080;

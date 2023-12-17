@@ -8,29 +8,8 @@
   "servers": [
     {
       "url": "http://localhost:3000/api",
-      "description": "development server}"
+      "description": "development server"
     }
   ],
-  "paths": {
-    "/user/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    }
-  }
+  "paths": {}
 }

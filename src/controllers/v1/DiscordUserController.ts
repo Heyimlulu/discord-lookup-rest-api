@@ -5,10 +5,8 @@ import { SearchResponse, User } from '../../dtos';
 // import { Logs, Lookup } from '../../sequelize/sequelize';
 // import { literal } from "sequelize";
 // import { datetime } from '../../utils/datetime';
-import { Get, Response, Route, SuccessResponse } from "tsoa";
 import dayjs from 'dayjs';
 
-@Route('v1/user')
 export default class DiscordUserController {
 
     private getUserInfos (data: User) {
@@ -74,12 +72,6 @@ export default class DiscordUserController {
         }
     }
 
-    @Get('{id}')
-    @SuccessResponse("200", "User found")
-    @Response<SearchResponse>("400", "No query provided")
-    @Response<SearchResponse>("404", "User not found")
-    @Response<SearchResponse>("406", "ID must be a number")
-    @Response<SearchResponse>("411", "ID must be 15 characters long")
     public async getUserByID (id: string): Promise<SearchResponse> {
 
         if (!id) {

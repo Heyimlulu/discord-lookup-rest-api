@@ -25,12 +25,12 @@ const doc = {
     servers: [
         {
             url: serverUrl,
-            description: `${env} server}`,
+            description: `${env} server`,
         },
     ],
 };
     
 const outputFile = './swagger.json';
-const endpointsFiles = ['./src/routes/v1/index.ts'];
+const endpointsFiles = ['./src/routes/index.ts'];
 
 swaggerAutogen({openapi: '3.0.0'})(outputFile, endpointsFiles, doc);
