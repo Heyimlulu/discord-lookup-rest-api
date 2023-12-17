@@ -1,1 +1,1 @@
-worker: yarn swagger
+worker: yarn start
