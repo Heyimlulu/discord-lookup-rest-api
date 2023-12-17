@@ -5,7 +5,6 @@ import routes from './routes';
 import { initDb } from './sequelize/sequelize';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
-import swagger from '../public/swagger.json';
 
 const router: Express = express();
 
@@ -41,6 +40,23 @@ router.get('/', (_req, res) => {
     res.redirect('/api-docs');
 });
 
+const environment = process.env.NODE_ENV || 'development';
+let port = process.env.PORT || 8080;
+
+let serverUrl;
+
+switch(environment) {
+    case 'production':
+        serverUrl = 'https://discord-lookup-rest-api.deeploy.ing';
+        break;
+    case 'development':
+        serverUrl = `http://localhost:${port}`;
+        break;
+    default:
+        serverUrl = `http://localhost:${port}`;
+        break;
+}
+
 const options = {
     swaggerDefinition: {
       info: {
@@ -48,6 +64,12 @@ const options = {
         title: 'Discord Lookup Rest API',
         description: 'An API to search for a Discord User or Bot by his snowflake ID.',
       },
+      servers: [
+        {
+            url: serverUrl,
+            description: `${environment} server`,
+        },
+    ],
     },
     apis: ['./swagger.json'],
   };
@@ -67,5 +89,4 @@ router.use((req: Request, res: Response) => {
 
 // Server
 const httpServer = http.createServer(router);
-const port = process.env.PORT || 8080;
-httpServer.listen(port, () => console.log(`The server is running on port ${port}`));
+httpServer.listen(port, () => console.log(`The server is running at ${serverUrl}`));
