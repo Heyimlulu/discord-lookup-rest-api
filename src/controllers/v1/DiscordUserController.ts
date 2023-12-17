@@ -103,7 +103,7 @@ export default class DiscordUserController {
             accentColor: banner_color,
             flags: flagsList.length ? flagsList : [],
             timestamp: dayjs(timestamp).unix(),
-            createdAt: dayjs(timestamp).format('dddd, MMMM D YYYY, hh:mm:ss A'),
+            createdAt: dayjs(timestamp).format('MMMM D YYYY, hh:mm:ss A'),
             accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), 'year', true))}`,
         }
 
