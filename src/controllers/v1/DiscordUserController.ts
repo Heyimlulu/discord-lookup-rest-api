@@ -104,7 +104,7 @@ export default class DiscordUserController {
             flags: flagsList.length ? flagsList : [],
             timestamp: dayjs(timestamp).unix(),
             createdAt: dayjs(timestamp).format('dddd, MMMM D YYYY, hh:mm:ss A'),
-            accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), 'year', true))} years`,
+            accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), 'year', true))}`,
         }
 
         return userInfos;
