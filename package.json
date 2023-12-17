@@ -8,9 +8,10 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc",
-    "start": "yarn build && cross-env NODE_ENV=production node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "start:dev": "yarn build && cross-env NODE_ENV=development node dist/index.js",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "yarn build"
   },
   "license": "ISC",
   "dependencies": {
