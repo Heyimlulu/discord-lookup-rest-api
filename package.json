@@ -9,6 +9,7 @@
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc",
     "start": "yarn build && cross-env NODE_ENV=production node dist/index.js",
+    "start:dev": "yarn build && cross-env NODE_ENV=development node dist/index.js",
     "test": "jest"
   },
   "license": "ISC",
