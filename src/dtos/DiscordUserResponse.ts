@@ -21,5 +21,5 @@ export interface User {
 
 interface AvatarDecorationData {
     asset: string;
-    skuId: number
+    sku_id: string;
 }

@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'developme
     initDb();
 }
 */
+
 const excludedDomains = ["discord.name"];
 const apiLimiter = rateLimit({
   windowMs: 2 * 60 * 1000, // 2 minutes
