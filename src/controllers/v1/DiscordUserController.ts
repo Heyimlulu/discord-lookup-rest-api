@@ -186,4 +186,125 @@ export default class DiscordUserController {
       };
     }
   }
+
+  public async decodeSnowflake(id: string) {
+      if (!id) {
+          return {
+              status: 400,
+              success: false,
+              message: "ID is required"
+          }
+      }
+
+      if (id.length! < 15) {
+          return {
+              status: 411,
+              success: false,
+              message: "ID too short"
+          }
+      }
+
+      if (!/^[0-9]+$/.test(<string>id)) {
+          return {
+              status: 406,
+              success: false,
+              message: "Invalid ID"
+          }
+      }
+
+      const userId: any = id;
+      const timestamp: number = parseInt(userId) / 4194304 + 1420070400000;
+      const difference: number = Math.abs(dayjs().valueOf() - timestamp);
+
+      return {
+          status: 200,
+          success: true,
+          data: {
+            user: {
+              id: userId,
+              timestamp: dayjs(timestamp).unix(),
+              createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
+              accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
+            },
+            difference: {
+              years: dayjs(difference).year() - 1970,
+              months: dayjs(difference).month(),
+              days: dayjs(difference).day(),
+              hours: dayjs(difference).hour(),
+              minutes: dayjs(difference).minute(),
+              seconds: dayjs(difference).second(),
+              milliseconds: dayjs(difference).millisecond(),
+          }
+        }
+      }
+  }
+
+  public async calculateSnowflakeDifference(ids) {
+    if (ids.length !== 2) {
+      return {
+        status: 400,
+        success: false,
+        message: "Only two IDs are allowed",
+      };
+    }
+
+    for (const id of ids) {
+      if (id.length < 15) {
+        return {
+          status: 411,
+          success: false,
+          message: "ID too short",
+        };
+      }
+
+      if (!/^[0-9]+$/.test(<string>id)) {
+        return {
+          status: 406,
+          success: false,
+          message: "Invalid ID",
+        };
+      }
+    }
+
+    const userIds: any = ids;
+
+    const timestamp1: number = parseInt(userIds[0]) / 4194304 + 1420070400000;
+    const timestamp2: number = parseInt(userIds[1]) / 4194304 + 1420070400000;
+
+    const difference: number = Math.abs(timestamp1 - timestamp2);
+
+    return {
+      status: 200,
+      success: true,
+      data: {
+        users: [
+          {
+            id: userIds[0],
+            timestamp: dayjs(timestamp1).unix(),
+            createdAt: dayjs(timestamp1).format("MMMM D YYYY, hh:mm:ss A"),
+            accountAge: `${Math.round(
+              dayjs().diff(dayjs(timestamp1), "year", true)
+            )}`,
+          },
+          {
+            id: userIds[1],
+            timestamp: dayjs(timestamp2).unix(),
+            createdAt: dayjs(timestamp2).format("MMMM D YYYY, hh:mm:ss A"),
+            accountAge: `${Math.round(
+              dayjs().diff(dayjs(timestamp2), "year", true)
+            )}`,
+          }
+        ],
+        difference: {
+          years: dayjs(difference).year() - 1970,
+          months: dayjs(difference).month(),
+          days: dayjs(difference).day(),
+          hours: dayjs(difference).hour(),
+          minutes: dayjs(difference).minute(),
+          seconds: dayjs(difference).second(),
+          milliseconds: dayjs(difference).millisecond(),
+        }
+      },
+    };
+  }
 }
