@@ -1,10 +1,11 @@
 import axios from "axios";
-import { ProfileData, DiscordUser, MediaContent, UserFlags } from "../../dtos";
+import { APIUser, UserFlags } from "discord-api-types/v10";
+import { ProfileData, UserBadges, MediaContent } from "../../dtos";
 import dayjs from "dayjs";
 import { Get, Path, Query, Route } from "tsoa";
 import { getEnvironmentBaseUrl } from "../../utils/environment";
-import * as f from "../../types/user/Flags";
-import * as p from "../../types/user/PremiumTypes";
+import { USER_BADGES_FLAGS, USER_BADGES_FLAGS_NAMES } from "../../types/user/Flags";
+import { PREMIUM_TYPES, PREMIUM_TYPES_NAMES } from "../../types/user/PremiumTypes";
 
 interface LookupResponse {
   status: number;
@@ -17,7 +18,7 @@ interface LookupResponse {
 export class LookupController {
   private baseUrl: string = getEnvironmentBaseUrl() + "/static";
 
-  private getUserInfos(data: DiscordUser): ProfileData {
+  private getUserInfos(apiUser): ProfileData {    
     const {
       id,
       username,
@@ -27,11 +28,11 @@ export class LookupController {
       bot,
       system,
       banner,
-      banner_color,
+      accent_color,
       premium_type,
       flags,
       avatar_decoration_data,
-    } = data;
+    } = apiUser;
 
     const type = !bot ? "USER" : system ? "SYSTEM" : "BOT";
 
@@ -54,30 +55,28 @@ export class LookupController {
     };
 
 
-    let flagsList: UserFlags[] = [];
-    for (const [key, value] of Object.entries(f.FLAGS)) {
-      if ((flags & value) === value) {
-        flagsList.push({
-          name: f.FLAGS_NAMES[key],
-          image: `${this.baseUrl}/${f.FLAGS_NAMES[key].replaceAll(
+    let badgesList: UserBadges[] = [];
+    for (const badgeFlag of Object.values(USER_BADGES_FLAGS) as number[]) {            
+      if ((flags! & badgeFlag) === badgeFlag) {
+        const badgeName = USER_BADGES_FLAGS_NAMES[USER_BADGES_FLAGS[badgeFlag]];
+        badgesList.push({
+          name: badgeName,
+          image: `${this.baseUrl}/${badgeName.replaceAll(
             " ",
             "_"
           )}.svg`,
         });
       }
     }
-
-    if (
-      !flagsList.includes({ name: "Verified Bot", image: "Verified Bot" }) &&
-      bot
-    ) {
-      flagsList.push({ name: "Bot", image: `${this.baseUrl}/Bot.svg` });
+    
+    if (!badgesList.includes({ name: "Verified Bot", image: "Verified Bot" }) && bot) {
+      badgesList.push({ name: "Bot", image: `${this.baseUrl}/Bot.svg` });
     }
 
-    const [key, value] = Object.entries(p.PREMIUM_TYPES)[premium_type];
-    if (value !== 0) {
-      flagsList.push({
-        name: p.PREMIUM_TYPES_NAMES[key],
+    const premium = Object.values(PREMIUM_TYPES)[premium_type!];    
+    if (premium !== "NONE") {
+      badgesList.push({
+        name: PREMIUM_TYPES_NAMES[premium],
         image: `${this.baseUrl}/Nitro.svg`,
       });
     }
@@ -96,10 +95,10 @@ export class LookupController {
       isSystem: system,
       banner: bannerMedia,
       avatarDecoration:
-        avatar_decoration_data &&
+      avatar_decoration_data &&
         `https://cdn.discordapp.com/avatar-decoration-presets/${avatar_decoration_data.asset}`,
-      accentColor: banner_color,
-      flags: flagsList,
+      accentColor: accent_color,
+      badges: badgesList,
       timestamp: dayjs(timestamp).valueOf(),
       createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
       accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
@@ -137,7 +136,7 @@ export class LookupController {
     const userId: any = id;
 
     try {
-      const response = await axios.get<DiscordUser>(
+      const response = await axios.get<APIUser>(
         `https://discord.com/api/v10/users/${userId}`,
         {
           headers: {

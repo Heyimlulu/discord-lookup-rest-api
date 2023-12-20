@@ -3,25 +3,25 @@ export interface ProfileData {
     id: string;
     username: string;
     discriminator: string;
-    displayName?: string;
+    displayName: string | null;
     avatar?: MediaContent;
     isBot?: boolean;
     isSystem?: boolean;
     banner?: MediaContent;
-    avatarDecoration?: string;
-    accentColor?: string;
-    flags?: Array<UserFlags>;
+    avatarDecoration?: string | null;
+    accentColor?: number | null;
+    badges: Array<UserBadges>;
     timestamp: number;
     createdAt: string;
     accountAge: string;
 }
 
-export interface MediaContent  {
-    id?: string;
-    url?: string;
+export interface MediaContent {
+    id?: string | null;
+    url?: string | null;
 }
 
-export interface UserFlags  {
+export interface UserBadges  {
     name: string;
     image: string;
 }

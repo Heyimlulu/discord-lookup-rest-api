@@ -12,13 +12,13 @@ const models: TsoaRoute.Models = {
     "MediaContent": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"string"},
-            "url": {"dataType":"string"},
+            "id": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+            "url": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UserFlags": {
+    "UserBadges": {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
@@ -34,14 +34,14 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"string","required":true},
             "username": {"dataType":"string","required":true},
             "discriminator": {"dataType":"string","required":true},
-            "displayName": {"dataType":"string"},
+            "displayName": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "avatar": {"ref":"MediaContent"},
             "isBot": {"dataType":"boolean"},
             "isSystem": {"dataType":"boolean"},
             "banner": {"ref":"MediaContent"},
-            "avatarDecoration": {"dataType":"string"},
-            "accentColor": {"dataType":"string"},
-            "flags": {"dataType":"array","array":{"dataType":"refObject","ref":"UserFlags"}},
+            "avatarDecoration": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+            "accentColor": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
+            "badges": {"dataType":"array","array":{"dataType":"refObject","ref":"UserBadges"},"required":true},
             "timestamp": {"dataType":"double","required":true},
             "createdAt": {"dataType":"string","required":true},
             "accountAge": {"dataType":"string","required":true},

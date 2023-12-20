@@ -9,16 +9,18 @@
 			"MediaContent": {
 				"properties": {
 					"id": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"url": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					}
 				},
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UserFlags": {
+			"UserBadges": {
 				"properties": {
 					"name": {
 						"type": "string"
@@ -49,7 +51,8 @@
 						"type": "string"
 					},
 					"displayName": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"avatar": {
 						"$ref": "#/components/schemas/MediaContent"
@@ -64,14 +67,17 @@
 						"$ref": "#/components/schemas/MediaContent"
 					},
 					"avatarDecoration": {
-						"type": "string"
+						"type": "string",
+						"nullable": true
 					},
 					"accentColor": {
-						"type": "string"
+						"type": "number",
+						"format": "double",
+						"nullable": true
 					},
-					"flags": {
+					"badges": {
 						"items": {
-							"$ref": "#/components/schemas/UserFlags"
+							"$ref": "#/components/schemas/UserBadges"
 						},
 						"type": "array"
 					},
@@ -91,6 +97,8 @@
 					"id",
 					"username",
 					"discriminator",
+					"displayName",
+					"badges",
 					"timestamp",
 					"createdAt",
 					"accountAge"
