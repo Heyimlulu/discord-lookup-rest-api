@@ -2,10 +2,11 @@ import axios from "axios";
 import { APIUser, UserFlags } from "discord-api-types/v10";
 import { ProfileData, UserBadges, MediaContent } from "../../dtos";
 import dayjs from "dayjs";
-import { Get, Path, Query, Route } from "tsoa";
+import { Get, Path, Query, Route, Tags } from "tsoa";
 import { getEnvironmentBaseUrl } from "../../utils/environment";
 import { USER_BADGES_FLAGS, USER_BADGES_FLAGS_NAMES } from "../../types/user/Flags";
 import { PREMIUM_TYPES, PREMIUM_TYPES_NAMES } from "../../types/user/PremiumTypes";
+import { convertColor } from "../../helpers/color";
 
 interface LookupResponse {
   status: number;
@@ -15,7 +16,8 @@ interface LookupResponse {
 }
 
 @Route("v1/user")
-export class LookupController {
+@Tags("User")
+export class UserController {
   private baseUrl: string = getEnvironmentBaseUrl() + "/static";
 
   private getUserInfos(apiUser): ProfileData {    
@@ -97,7 +99,7 @@ export class LookupController {
       avatarDecoration:
       avatar_decoration_data &&
         `https://cdn.discordapp.com/avatar-decoration-presets/${avatar_decoration_data.asset}`,
-      accentColor: accent_color,
+      accentColor: convertColor(accent_color),
       badges: badgesList,
       timestamp: dayjs(timestamp).valueOf(),
       createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
@@ -107,9 +109,9 @@ export class LookupController {
     return userInfos;
   }
 
-  @Get("/lookup/{id}")
-  public async getUserByID(@Path() id: string): Promise<LookupResponse> {
-    if (!id) {
+  @Get("/lookup/{userId}")
+  public async getUserByID(@Path() userId: string): Promise<LookupResponse> {
+    if (!userId) {
       return {
         status: 400,
         success: false,
@@ -117,7 +119,7 @@ export class LookupController {
       };
     }
 
-    if (id.length! < 15) {
+    if (userId.length! < 15) {
       return {
         status: 411,
         success: false,
@@ -125,15 +127,13 @@ export class LookupController {
       };
     }
 
-    if (!/^[0-9]+$/.test(<string>id)) {
+    if (!/^[0-9]+$/.test(<string>userId)) {
       return {
         status: 406,
         success: false,
         message: "Invalid ID",
       };
     }
-
-    const userId: any = id;
 
     try {
       const response = await axios.get<APIUser>(
@@ -161,9 +161,9 @@ export class LookupController {
     }
   }
 
-  @Get("/decode/{id}")
-  public async decodeSnowflake(@Path() id: string) {
-      if (!id) {
+  @Get("/decode/{userId}")
+  public async decodeSnowflake(@Path() userId: string) {
+      if (!userId) {
           return {
               status: 400,
               success: false,
@@ -171,7 +171,7 @@ export class LookupController {
           }
       }
 
-      if (id.length! < 15) {
+      if (userId.length! < 15) {
           return {
               status: 411,
               success: false,
@@ -179,7 +179,7 @@ export class LookupController {
           }
       }
 
-      if (!/^[0-9]+$/.test(<string>id)) {
+      if (!/^[0-9]+$/.test(<string>userId)) {
           return {
               status: 406,
               success: false,
@@ -187,7 +187,6 @@ export class LookupController {
           }
       }
 
-      const userId: any = id;
       const timestamp: number = parseInt(userId) / 4194304 + 1420070400000;
       const difference: number = Math.abs(dayjs().valueOf() - timestamp);
 
@@ -215,8 +214,8 @@ export class LookupController {
   }
 
   @Get("/calculate-snowflake-difference")
-  public async calculateSnowflakeDifference(@Query() ids: string[]) {
-    if (ids.length !== 2) {
+  public async calculateSnowflakeDifference(@Query() userIds: string[]) {
+    if (userIds.length !== 2) {
       return {
         status: 400,
         success: false,
@@ -224,8 +223,8 @@ export class LookupController {
       };
     }
 
-    for (const id of ids) {
-      if (id.length < 15) {
+    for (const userId of userIds) {
+      if (userId.length < 15) {
         return {
           status: 411,
           success: false,
@@ -233,7 +232,7 @@ export class LookupController {
         };
       }
 
-      if (!/^[0-9]+$/.test(<string>id)) {
+      if (!/^[0-9]+$/.test(<string>userId)) {
         return {
           status: 406,
           success: false,
@@ -241,8 +240,6 @@ export class LookupController {
         };
       }
     }
-
-    const userIds: any = ids;
 
     const timestamp1: number = parseInt(userIds[0]) / 4194304 + 1420070400000;
     const timestamp2: number = parseInt(userIds[1]) / 4194304 + 1420070400000;

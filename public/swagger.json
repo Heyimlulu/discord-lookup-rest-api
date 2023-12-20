@@ -6,6 +6,865 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Snowflake": {
+				"type": "string",
+				"description": "https://discord.com/developers/docs/reference#snowflakes"
+			},
+			"Permissions": {
+				"type": "string",
+				"description": "https://discord.com/developers/docs/topics/permissions"
+			},
+			"GuildVerificationLevel": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-verification-level",
+				"enum": [
+					0,
+					1,
+					2,
+					3,
+					4
+				],
+				"type": "number"
+			},
+			"GuildDefaultMessageNotifications": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level",
+				"enum": [
+					0,
+					1
+				],
+				"type": "number"
+			},
+			"GuildExplicitContentFilter": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level",
+				"enum": [
+					0,
+					1,
+					2
+				],
+				"type": "number"
+			},
+			"APIRoleTags": {
+				"description": "https://discord.com/developers/docs/topics/permissions#role-object-role-tags-structure",
+				"properties": {
+					"bot_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The id of the bot this role belongs to"
+					},
+					"premium_subscriber": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true,
+						"description": "Whether this is the guild's premium subscriber role"
+					},
+					"integration_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The id of the integration this role belongs to"
+					},
+					"subscription_listing_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The id of this role's subscription sku and listing"
+					},
+					"available_for_purchase": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true,
+						"description": "Whether this role is available for purchase"
+					},
+					"guild_connections": {
+						"type": "number",
+						"enum": [
+							null
+						],
+						"nullable": true,
+						"description": "Whether this role is a guild's linked role"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RoleFlags": {
+				"description": "https://discord.com/developers/docs/topics/permissions#role-object-role-flags",
+				"enum": [
+					1
+				],
+				"type": "number"
+			},
+			"APIRole": {
+				"description": "https://discord.com/developers/docs/topics/permissions#role-object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "Role id"
+					},
+					"name": {
+						"type": "string",
+						"description": "Role name"
+					},
+					"color": {
+						"type": "number",
+						"format": "double",
+						"description": "Integer representation of hexadecimal color code"
+					},
+					"hoist": {
+						"type": "boolean",
+						"description": "If this role is pinned in the user listing"
+					},
+					"icon": {
+						"type": "string",
+						"nullable": true,
+						"description": "The role icon hash"
+					},
+					"unicode_emoji": {
+						"type": "string",
+						"nullable": true,
+						"description": "The role unicode emoji as a standard emoji"
+					},
+					"position": {
+						"type": "number",
+						"format": "double",
+						"description": "Position of this role"
+					},
+					"permissions": {
+						"$ref": "#/components/schemas/Permissions",
+						"description": "Permission bit set\n\nSee https://en.wikipedia.org/wiki/Bit_field"
+					},
+					"managed": {
+						"type": "boolean",
+						"description": "Whether this role is managed by an integration"
+					},
+					"mentionable": {
+						"type": "boolean",
+						"description": "Whether this role is mentionable"
+					},
+					"tags": {
+						"$ref": "#/components/schemas/APIRoleTags",
+						"description": "The tags this role has"
+					},
+					"flags": {
+						"$ref": "#/components/schemas/RoleFlags",
+						"description": "Role flags"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"color",
+					"hoist",
+					"position",
+					"permissions",
+					"managed",
+					"mentionable",
+					"flags"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserFlags": {
+				"description": "https://discord.com/developers/docs/resources/user#user-object-user-flags",
+				"enum": [
+					1,
+					2,
+					4,
+					8,
+					16,
+					32,
+					64,
+					128,
+					256,
+					512,
+					1024,
+					8192,
+					16384,
+					65536,
+					131072,
+					262144,
+					524288,
+					1048576,
+					2097152,
+					4194304,
+					17592186044416,
+					1125899906842624,
+					2251799813685248
+				],
+				"type": "number"
+			},
+			"UserPremiumType": {
+				"description": "https://discord.com/developers/docs/resources/user#user-object-premium-types",
+				"enum": [
+					0,
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"APIUser": {
+				"description": "https://discord.com/developers/docs/resources/user#user-object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The user's id"
+					},
+					"username": {
+						"type": "string",
+						"description": "The user's username, not unique across the platform"
+					},
+					"discriminator": {
+						"type": "string",
+						"description": "The user's Discord-tag"
+					},
+					"global_name": {
+						"type": "string",
+						"nullable": true,
+						"description": "The user's display name, if it is set. For bots, this is the application name"
+					},
+					"avatar": {
+						"type": "string",
+						"nullable": true,
+						"description": "The user's avatar hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"bot": {
+						"type": "boolean",
+						"description": "Whether the user belongs to an OAuth2 application"
+					},
+					"system": {
+						"type": "boolean",
+						"description": "Whether the user is an Official Discord System user (part of the urgent message system)"
+					},
+					"mfa_enabled": {
+						"type": "boolean",
+						"description": "Whether the user has two factor enabled on their account"
+					},
+					"banner": {
+						"type": "string",
+						"nullable": true,
+						"description": "The user's banner hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"accent_color": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The user's banner color encoded as an integer representation of hexadecimal color code"
+					},
+					"locale": {
+						"type": "string",
+						"description": "The user's chosen language option"
+					},
+					"verified": {
+						"type": "boolean",
+						"description": "Whether the email on this account has been verified"
+					},
+					"email": {
+						"type": "string",
+						"nullable": true,
+						"description": "The user's email"
+					},
+					"flags": {
+						"$ref": "#/components/schemas/UserFlags",
+						"description": "The flags on a user's account\n\nSee https://discord.com/developers/docs/resources/user#user-object-user-flags"
+					},
+					"premium_type": {
+						"$ref": "#/components/schemas/UserPremiumType",
+						"description": "The type of Nitro subscription on a user's account\n\nSee https://discord.com/developers/docs/resources/user#user-object-premium-types"
+					},
+					"public_flags": {
+						"$ref": "#/components/schemas/UserFlags",
+						"description": "The public flags on a user's account\n\nSee https://discord.com/developers/docs/resources/user#user-object-user-flags"
+					},
+					"avatar_decoration": {
+						"type": "string",
+						"nullable": true,
+						"description": "The user's avatar decoration hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"discriminator",
+					"global_name",
+					"avatar"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"APIEmoji": {
+				"description": "https://discord.com/developers/docs/resources/emoji#emoji-object-emoji-structure",
+				"properties": {
+					"id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "Emoji id"
+					},
+					"name": {
+						"type": "string",
+						"nullable": true,
+						"description": "Emoji name (can be null only in reaction emoji objects)"
+					},
+					"animated": {
+						"type": "boolean",
+						"description": "Whether this emoji is animated"
+					},
+					"roles": {
+						"items": {
+							"$ref": "#/components/schemas/Snowflake"
+						},
+						"type": "array",
+						"description": "Roles this emoji is whitelisted to"
+					},
+					"user": {
+						"$ref": "#/components/schemas/APIUser",
+						"description": "User that created this emoji"
+					},
+					"require_colons": {
+						"type": "boolean",
+						"description": "Whether this emoji must be wrapped in colons"
+					},
+					"managed": {
+						"type": "boolean",
+						"description": "Whether this emoji is managed"
+					},
+					"available": {
+						"type": "boolean",
+						"description": "Whether this emoji can be used, may be false due to loss of Server Boosts"
+					}
+				},
+				"required": [
+					"id",
+					"name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GuildFeature": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-guild-features",
+				"enum": [
+					"ANIMATED_BANNER",
+					"ANIMATED_ICON",
+					"APPLICATION_COMMAND_PERMISSIONS_V2",
+					"AUTO_MODERATION",
+					"BANNER",
+					"COMMUNITY",
+					"CREATOR_MONETIZABLE_PROVISIONAL",
+					"CREATOR_STORE_PAGE",
+					"DEVELOPER_SUPPORT_SERVER",
+					"DISCOVERABLE",
+					"FEATURABLE",
+					"HAS_DIRECTORY_ENTRY",
+					"HUB",
+					"INVITES_DISABLED",
+					"INVITE_SPLASH",
+					"LINKED_TO_HUB",
+					"MEMBER_VERIFICATION_GATE_ENABLED",
+					"MONETIZATION_ENABLED",
+					"MORE_STICKERS",
+					"NEWS",
+					"PARTNERED",
+					"PREVIEW_ENABLED",
+					"PRIVATE_THREADS",
+					"RAID_ALERTS_DISABLED",
+					"RELAY_ENABLED",
+					"ROLE_ICONS",
+					"ROLE_SUBSCRIPTIONS_AVAILABLE_FOR_PURCHASE",
+					"ROLE_SUBSCRIPTIONS_ENABLED",
+					"TICKETED_EVENTS_ENABLED",
+					"VANITY_URL",
+					"VERIFIED",
+					"VIP_REGIONS",
+					"WELCOME_SCREEN_ENABLED"
+				],
+				"type": "string"
+			},
+			"GuildMFALevel": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-mfa-level",
+				"enum": [
+					0,
+					1
+				],
+				"type": "number"
+			},
+			"GuildSystemChannelFlags": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags",
+				"enum": [
+					1,
+					2,
+					4,
+					8,
+					16,
+					32
+				],
+				"type": "number"
+			},
+			"GuildPremiumTier": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-premium-tier",
+				"enum": [
+					0,
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"APIGuildWelcomeScreenChannel": {
+				"properties": {
+					"channel_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The channel id that is suggested"
+					},
+					"description": {
+						"type": "string",
+						"description": "The description shown for the channel"
+					},
+					"emoji_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The emoji id of the emoji that is shown on the left of the channel"
+					},
+					"emoji_name": {
+						"type": "string",
+						"nullable": true,
+						"description": "The emoji name of the emoji that is shown on the left of the channel"
+					}
+				},
+				"required": [
+					"channel_id",
+					"description",
+					"emoji_id",
+					"emoji_name"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"APIGuildWelcomeScreen": {
+				"properties": {
+					"description": {
+						"type": "string",
+						"nullable": true,
+						"description": "The welcome screen short message"
+					},
+					"welcome_channels": {
+						"items": {
+							"$ref": "#/components/schemas/APIGuildWelcomeScreenChannel"
+						},
+						"type": "array",
+						"description": "Array of suggested channels"
+					}
+				},
+				"required": [
+					"description",
+					"welcome_channels"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GuildNSFWLevel": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-guild-nsfw-level",
+				"enum": [
+					0,
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"StickerType": {
+				"description": "https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-types",
+				"enum": [
+					1,
+					2
+				],
+				"type": "number"
+			},
+			"StickerFormatType": {
+				"description": "https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-format-types",
+				"enum": [
+					1,
+					2,
+					3,
+					4
+				],
+				"type": "number"
+			},
+			"APISticker": {
+				"description": "https://discord.com/developers/docs/resources/sticker#sticker-object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "ID of the sticker"
+					},
+					"pack_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "For standard stickers, ID of the pack the sticker is from"
+					},
+					"name": {
+						"type": "string",
+						"description": "Name of the sticker"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true,
+						"description": "Description of the sticker"
+					},
+					"tags": {
+						"type": "string",
+						"description": "For guild stickers, the Discord name of a unicode emoji representing the sticker's expression. for standard stickers, a comma-separated list of related expressions."
+					},
+					"asset": {
+						"type": "string",
+						"enum": [
+							""
+						],
+						"nullable": false,
+						"description": "Previously the sticker asset hash, now an empty string",
+						"deprecated": true
+					},
+					"type": {
+						"$ref": "#/components/schemas/StickerType",
+						"description": "Type of sticker\n\nSee https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-types"
+					},
+					"format_type": {
+						"$ref": "#/components/schemas/StickerFormatType",
+						"description": "Type of sticker format\n\nSee https://discord.com/developers/docs/resources/sticker#sticker-object-sticker-format-types"
+					},
+					"available": {
+						"type": "boolean",
+						"description": "Whether this guild sticker can be used, may be false due to loss of Server Boosts"
+					},
+					"guild_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "ID of the guild that owns this sticker"
+					},
+					"user": {
+						"$ref": "#/components/schemas/APIUser",
+						"description": "The user that uploaded the guild sticker"
+					},
+					"sort_value": {
+						"type": "number",
+						"format": "double",
+						"description": "The standard sticker's sort order within its pack"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"description",
+					"tags",
+					"type",
+					"format_type"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"GuildHubType": {
+				"enum": [
+					0,
+					1,
+					2
+				],
+				"type": "number"
+			},
+			"APIGuild": {
+				"description": "https://discord.com/developers/docs/resources/guild#guild-object-guild-structure",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "Guild id"
+					},
+					"welcome_screen": {
+						"$ref": "#/components/schemas/APIGuildWelcomeScreen",
+						"description": "The welcome screen of a Community guild, shown to new members\n\nReturned in the invite object"
+					},
+					"name": {
+						"type": "string",
+						"description": "Guild name (2-100 characters, excluding trailing and leading whitespace)"
+					},
+					"icon": {
+						"type": "string",
+						"nullable": true,
+						"description": "Icon hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"splash": {
+						"type": "string",
+						"nullable": true,
+						"description": "Splash hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"banner": {
+						"type": "string",
+						"nullable": true,
+						"description": "Banner hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"description": {
+						"type": "string",
+						"nullable": true,
+						"description": "The description for the guild"
+					},
+					"features": {
+						"items": {
+							"$ref": "#/components/schemas/GuildFeature"
+						},
+						"type": "array",
+						"description": "Enabled guild features\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-guild-features"
+					},
+					"verification_level": {
+						"$ref": "#/components/schemas/GuildVerificationLevel",
+						"description": "Verification level required for the guild\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-verification-level"
+					},
+					"vanity_url_code": {
+						"type": "string",
+						"nullable": true,
+						"description": "The vanity url code for the guild"
+					},
+					"icon_hash": {
+						"type": "string",
+						"nullable": true,
+						"description": "Icon hash, returned when in the template object\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"discovery_splash": {
+						"type": "string",
+						"nullable": true,
+						"description": "Discovery splash hash; only present for guilds with the \"DISCOVERABLE\" feature\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"owner": {
+						"type": "boolean",
+						"description": "`true` if the user is the owner of the guild\n\n**This field is only received from https://discord.com/developers/docs/resources/user#get-current-user-guilds**"
+					},
+					"owner_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "ID of owner"
+					},
+					"permissions": {
+						"$ref": "#/components/schemas/Permissions",
+						"description": "Total permissions for the user in the guild (excludes overrides)\n\n**This field is only received from https://discord.com/developers/docs/resources/user#get-current-user-guilds**\n\nSee https://en.wikipedia.org/wiki/Bit_field"
+					},
+					"region": {
+						"type": "string",
+						"description": "Voice region id for the guild\n\nSee https://discord.com/developers/docs/resources/voice#voice-region-object",
+						"deprecated": true
+					},
+					"afk_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "ID of afk channel"
+					},
+					"afk_timeout": {
+						"type": "number",
+						"enum": [
+							60,
+							300,
+							900,
+							1800,
+							3600
+						],
+						"description": "afk timeout in seconds, can be set to: `60`, `300`, `900`, `1800`, `3600`"
+					},
+					"widget_enabled": {
+						"type": "boolean",
+						"description": "`true` if the guild widget is enabled"
+					},
+					"widget_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The channel id that the widget will generate an invite to, or `null` if set to no invite"
+					},
+					"default_message_notifications": {
+						"$ref": "#/components/schemas/GuildDefaultMessageNotifications",
+						"description": "Default message notifications level\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level"
+					},
+					"explicit_content_filter": {
+						"$ref": "#/components/schemas/GuildExplicitContentFilter",
+						"description": "Explicit content filter level\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level"
+					},
+					"roles": {
+						"items": {
+							"$ref": "#/components/schemas/APIRole"
+						},
+						"type": "array",
+						"description": "Roles in the guild\n\nSee https://discord.com/developers/docs/topics/permissions#role-object"
+					},
+					"emojis": {
+						"items": {
+							"$ref": "#/components/schemas/APIEmoji"
+						},
+						"type": "array",
+						"description": "Custom guild emojis\n\nSee https://discord.com/developers/docs/resources/emoji#emoji-object"
+					},
+					"mfa_level": {
+						"$ref": "#/components/schemas/GuildMFALevel",
+						"description": "Required MFA level for the guild\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-mfa-level"
+					},
+					"application_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "Application id of the guild creator if it is bot-created"
+					},
+					"system_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The id of the channel where guild notices such as welcome messages and boost events are posted"
+					},
+					"system_channel_flags": {
+						"$ref": "#/components/schemas/GuildSystemChannelFlags",
+						"description": "System channel flags\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags"
+					},
+					"rules_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The id of the channel where Community guilds can display rules and/or guidelines"
+					},
+					"max_presences": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"description": "The maximum number of presences for the guild (`null` is always returned, apart from the largest of guilds)"
+					},
+					"max_members": {
+						"type": "number",
+						"format": "double",
+						"description": "The maximum number of members for the guild"
+					},
+					"premium_tier": {
+						"$ref": "#/components/schemas/GuildPremiumTier",
+						"description": "Premium tier (Server Boost level)\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-premium-tier"
+					},
+					"premium_subscription_count": {
+						"type": "number",
+						"format": "double",
+						"description": "The number of boosts this guild currently has"
+					},
+					"preferred_locale": {
+						"type": "string",
+						"description": "The preferred locale of a Community guild; used in guild discovery and notices from Discord; defaults to \"en-US\"",
+						"default": "\"en-US\""
+					},
+					"public_updates_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The id of the channel where admins and moderators of Community guilds receive notices from Discord"
+					},
+					"max_video_channel_users": {
+						"type": "number",
+						"format": "double",
+						"description": "The maximum amount of users in a video channel"
+					},
+					"max_stage_video_channel_users": {
+						"type": "number",
+						"format": "double",
+						"description": "The maximum amount of users in a stage video channel"
+					},
+					"approximate_member_count": {
+						"type": "number",
+						"format": "double",
+						"description": "Approximate number of members in this guild,\nreturned from the `GET /guilds/<id>` and `/users/@me/guilds` (OAuth2) endpoints when `with_counts` is `true`"
+					},
+					"approximate_presence_count": {
+						"type": "number",
+						"format": "double",
+						"description": "Approximate number of non-offline members in this guild,\nreturned from the `GET /guilds/<id>` and `/users/@me/guilds` (OAuth2) endpoints when `with_counts` is `true`"
+					},
+					"nsfw_level": {
+						"$ref": "#/components/schemas/GuildNSFWLevel",
+						"description": "The nsfw level of the guild\n\nSee https://discord.com/developers/docs/resources/guild#guild-object-guild-nsfw-level"
+					},
+					"stickers": {
+						"items": {
+							"$ref": "#/components/schemas/APISticker"
+						},
+						"type": "array",
+						"description": "Custom guild stickers\n\nSee https://discord.com/developers/docs/resources/sticker#sticker-object"
+					},
+					"premium_progress_bar_enabled": {
+						"type": "boolean",
+						"description": "Whether the guild has the boost progress bar enabled."
+					},
+					"hub_type": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/GuildHubType"
+							}
+						],
+						"nullable": true,
+						"description": "The type of Student Hub the guild is"
+					},
+					"safety_alerts_channel_id": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/Snowflake"
+							}
+						],
+						"nullable": true,
+						"description": "The id of the channel where admins and moderators of Community guilds receive safety alerts from Discord"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"icon",
+					"splash",
+					"discovery_splash",
+					"owner_id",
+					"region",
+					"afk_channel_id",
+					"afk_timeout",
+					"verification_level",
+					"default_message_notifications",
+					"explicit_content_filter",
+					"roles",
+					"emojis",
+					"features",
+					"mfa_level",
+					"application_id",
+					"system_channel_id",
+					"system_channel_flags",
+					"rules_channel_id",
+					"vanity_url_code",
+					"description",
+					"banner",
+					"premium_tier",
+					"preferred_locale",
+					"public_updates_channel_id",
+					"nsfw_level",
+					"stickers",
+					"premium_progress_bar_enabled",
+					"hub_type",
+					"safety_alerts_channel_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"MediaContent": {
 				"properties": {
 					"id": {
@@ -71,8 +930,7 @@
 						"nullable": true
 					},
 					"accentColor": {
-						"type": "number",
-						"format": "double",
+						"type": "string",
 						"nullable": true
 					},
 					"badges": {
@@ -145,7 +1003,81 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/v1/user/lookup/{id}": {
+		"/v1/server/lookup/{serverId}": {
+			"get": {
+				"operationId": "GetServerByID",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"message",
+												"success",
+												"status"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"message": {},
+												"data": {
+													"$ref": "#/components/schemas/APIGuild"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"data",
+												"success",
+												"status"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Server"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "serverId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/user/lookup/{userId}": {
 			"get": {
 				"operationId": "GetUserByID",
 				"responses": {
@@ -160,11 +1092,14 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "id",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -173,7 +1108,7 @@
 				]
 			}
 		},
-		"/v1/user/decode/{id}": {
+		"/v1/user/decode/{userId}": {
 			"get": {
 				"operationId": "DecodeSnowflake",
 				"responses": {
@@ -240,7 +1175,9 @@
 																},
 																"createdAt": {},
 																"timestamp": {},
-																"id": {}
+																"id": {
+																	"type": "string"
+																}
 															},
 															"required": [
 																"accountAge",
@@ -278,11 +1215,14 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "path",
-						"name": "id",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -359,7 +1299,9 @@
 																	},
 																	"createdAt": {},
 																	"timestamp": {},
-																	"id": {}
+																	"id": {
+																		"type": "string"
+																	}
 																},
 																"required": [
 																	"accountAge",
@@ -399,11 +1341,14 @@
 						}
 					}
 				},
+				"tags": [
+					"User"
+				],
 				"security": [],
 				"parameters": [
 					{
 						"in": "query",
-						"name": "ids",
+						"name": "userIds",
 						"required": true,
 						"schema": {
 							"type": "array",

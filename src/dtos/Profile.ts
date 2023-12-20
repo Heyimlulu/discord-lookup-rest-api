@@ -9,7 +9,7 @@ export interface ProfileData {
     isSystem?: boolean;
     banner?: MediaContent;
     avatarDecoration?: string | null;
-    accentColor?: number | null;
+    accentColor?: string | null;
     badges: Array<UserBadges>;
     timestamp: number;
     createdAt: string;
