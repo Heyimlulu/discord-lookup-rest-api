@@ -96,7 +96,7 @@ export default class DiscordUserController {
         `https://cdn.discordapp.com/avatar-decoration-presets/${avatar_decoration_data.asset}`,
       accentColor: banner_color,
       flags: flagsList.length ? flagsList : [],
-      timestamp: dayjs(timestamp).unix(),
+      timestamp: dayjs(timestamp).valueOf(),
       createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
       accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
     };
@@ -222,7 +222,7 @@ export default class DiscordUserController {
           data: {
             user: {
               id: userId,
-              timestamp: dayjs(timestamp).unix(),
+              timestamp: dayjs(timestamp).valueOf(),
               createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
               accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
             },
@@ -280,7 +280,7 @@ export default class DiscordUserController {
         users: [
           {
             id: userIds[0],
-            timestamp: dayjs(timestamp1).unix(),
+            timestamp: dayjs(timestamp1).valueOf(),
             createdAt: dayjs(timestamp1).format("MMMM D YYYY, hh:mm:ss A"),
             accountAge: `${Math.round(
               dayjs().diff(dayjs(timestamp1), "year", true)
@@ -288,7 +288,7 @@ export default class DiscordUserController {
           },
           {
             id: userIds[1],
-            timestamp: dayjs(timestamp2).unix(),
+            timestamp: dayjs(timestamp2).valueOf(),
             createdAt: dayjs(timestamp2).format("MMMM D YYYY, hh:mm:ss A"),
             accountAge: `${Math.round(
               dayjs().diff(dayjs(timestamp2), "year", true)
