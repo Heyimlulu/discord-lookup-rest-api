@@ -1,11 +1,4 @@
-export interface UserResponse {
-    status: number;
-    success: boolean;
-    message?: string;
-    data?: LookupResponse;
-}
-
-export interface LookupResponse {
+export interface UserData {
     type: string;
     id: string;
     username: string;

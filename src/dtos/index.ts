@@ -1,3 +1,4 @@
 export * from "./Logs";
-export * from "./SearchResponse";
-export * from "./DiscordUserResponse";
+export * from "./Lookup";
+export * from "./DiscordUser";
+export * from "./User";

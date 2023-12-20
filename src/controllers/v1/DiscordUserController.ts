@@ -1,8 +1,5 @@
 import axios from "axios";
-import { UserResponse, LookupResponse, User } from "../../dtos";
-// import { Logs, Lookup } from '../../sequelize/sequelize';
-// import { literal } from "sequelize";
-// import { datetime } from '../../utils/datetime';
+import { Lookup, UserData, DiscordUser } from "../../dtos";
 import dayjs from "dayjs";
 import { getEnvironmentBaseUrl } from "../../utils/environment";
 import * as f from "../../types/user/Flags";
@@ -16,7 +13,7 @@ interface Flags {
 export default class DiscordUserController {
   private baseUrl: string = getEnvironmentBaseUrl() + "/static";
 
-  private getUserInfos(data: User): LookupResponse {
+  private getUserInfos(data: DiscordUser): UserData {
     const {
       id,
       username,
@@ -67,7 +64,7 @@ export default class DiscordUserController {
     // Reverse formula to get the userID
     // const userId: number = ((timestamp - 1420070400000) * 4194304)
 
-    const userInfos: LookupResponse = {
+    const userInfos: UserData = {
       type,
       id: id,
       username: username,
@@ -104,7 +101,7 @@ export default class DiscordUserController {
     return userInfos;
   }
 
-  public async getUserByID(id: string): Promise<UserResponse> {
+  public async getUserByID(id: string): Promise<Lookup> {
     if (!id) {
       return {
         status: 400,
@@ -131,17 +128,8 @@ export default class DiscordUserController {
 
     const userId: any = id;
 
-    // if (await Logs.findOne({ where: { date: datetime() } })) {
-    //     await Logs.update({ count: literal('count + 1') }, { where: { date: datetime() }} )
-    // } else {
-    //     Logs.create({
-    //         date: datetime(),
-    //         count: 1
-    //     }).then((logs: any) => console.log(logs.toJSON()));
-    // }
-
     try {
-      const response = await axios.get<User>(
+      const response = await axios.get<DiscordUser>(
         `https://discord.com/api/v10/users/${userId}`,
         {
           headers: {
@@ -152,33 +140,12 @@ export default class DiscordUserController {
 
       const data = this.getUserInfos(response.data);
 
-      // log user to database
-      // if (await Lookup.findOne({ where: { userid: userId } })) {
-      //     await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
-      // } else {
-      //     Lookup.create({
-      //         userid: userId,
-      //         total_search: 1,
-      //         does_exist: true,
-      //         is_bot: isBot
-      //     }).then((lookup: any) => console.log(lookup.toJSON()));
-      // }
-
       return {
         status: 200,
         success: true,
         data,
       };
     } catch {
-      // if (await Lookup.findOne({ where: { userid: userId } })) {
-      //     await Lookup.update({ total_search: literal('total_search + 1') }, { where: { userid: userId }} )
-      // } else {
-      //     Lookup.create({
-      //         userid: userId,
-      //         total_search: 1,
-      //     }).then((lookup: any) => console.log(lookup.toJSON()));
-      // }
-
       return {
         status: 404,
         success: false,
