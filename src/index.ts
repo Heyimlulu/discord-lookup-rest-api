@@ -3,40 +3,33 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import routes from "./routes";
 import rateLimit from "express-rate-limit";
-import { initDb } from "./sequelize/sequelize";
 import swaggerUi from "swagger-ui-express";
-import swaggerJSDoc from "swagger-jsdoc";
 import { getEnvironmentBaseUrl } from "./utils/environment";
+import swaggerDocument from "../public/swagger.json";
+import { RegisterRoutes } from "./routes/routes";
 
 const router: Express = express();
 
-/*
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') {
-    // Database initialization
-    initDb();
-}
-*/
-
-const excludedDomains = ["discord.name"];
-const apiLimiter = rateLimit({
-  windowMs: 2 * 60 * 1000, // 2 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
-  message: "Too many requests from this IP, please try again after 2 minutes",
-  handler: (req: Request, res: Response) => {
-    return res.status(429).json({
-      status: 429,
-      message:
-        "Too many requests from this IP, please try again after 2 minutes",
-    });
-  },
-  skip: (req: Request, res: Response) => {
-    const requestDomain = req.hostname;
-    return excludedDomains.includes(requestDomain);
-  },
-});
+// const excludedDomains = ["discord.name"];
+// const apiLimiter = rateLimit({
+//   windowMs: 2 * 60 * 1000, // 2 minutes
+//   max: 10, // limit each IP to 10 requests per windowMs
+//   message: "Too many requests from this IP, please try again after 2 minutes",
+//   handler: (req: Request, res: Response) => {
+//     return res.status(429).json({
+//       status: 429,
+//       message:
+//         "Too many requests from this IP, please try again after 2 minutes",
+//     });
+//   },
+//   skip: (req: Request, res: Response) => {
+//     const requestDomain = req.hostname;
+//     return excludedDomains.includes(requestDomain);
+//   },
+// });
 
 // Rate limiter
-router.use(apiLimiter);
+// router.use(apiLimiter);
 // Logging
 router.use(morgan("dev"));
 // Parse the request
@@ -65,34 +58,21 @@ router.get("/", (_req, res) => {
   res.redirect("/api-docs");
 });
 
+router.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+
 router.use("/static", express.static("./public/assets/flags"));
 
 const environment = process.env.NODE_ENV || "development";
 const port = process.env.PORT || "8080";
 const serverUrl = getEnvironmentBaseUrl();
 
-const options = {
-  swaggerDefinition: {
-    info: {
-      version: "v1.0.0",
-      title: "Discord Lookup Rest API",
-      description:
-        "An API to search for a Discord User or Bot by his snowflake ID.",
-    },
-    servers: [
-      {
-        url: serverUrl,
-        description: `${environment} server`,
-      },
-    ],
-  },
-  apis: ["./swagger.json"],
-};
-
-const specs = swaggerJSDoc(options);
-router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
 router.use("/", routes);
+
+RegisterRoutes(router);
 
 // Error handling
 router.use((req: Request, res: Response) => {

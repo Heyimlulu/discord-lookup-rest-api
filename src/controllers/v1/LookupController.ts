@@ -1,19 +1,23 @@
 import axios from "axios";
-import { Lookup, UserData, DiscordUser } from "../../dtos";
+import { ProfileData, DiscordUser, MediaContent, UserFlags } from "../../dtos";
 import dayjs from "dayjs";
+import { Get, Path, Query, Route } from "tsoa";
 import { getEnvironmentBaseUrl } from "../../utils/environment";
 import * as f from "../../types/user/Flags";
 import * as p from "../../types/user/PremiumTypes";
 
-interface Flags {
-  name: string;
-  image: string;
+interface LookupResponse {
+  status: number;
+  success: boolean;
+  message?: string;
+  data?: ProfileData;
 }
 
-export default class DiscordUserController {
+@Route("v1/user")
+export class LookupController {
   private baseUrl: string = getEnvironmentBaseUrl() + "/static";
 
-  private getUserInfos(data: DiscordUser): UserData {
+  private getUserInfos(data: DiscordUser): ProfileData {
     const {
       id,
       username,
@@ -31,7 +35,26 @@ export default class DiscordUserController {
 
     const type = !bot ? "USER" : system ? "SYSTEM" : "BOT";
 
-    let flagsList: Flags[] = [];
+    const avatarMedia: MediaContent = {
+      id: avatar,
+      url:
+        avatar &&
+        `https://cdn.discordapp.com/avatars/${id}/${avatar}.${
+          avatar.startsWith("a_") ? "gif" : "png"
+        }`,
+    };
+
+    const bannerMedia: MediaContent = {
+      id: banner,
+      url:
+        banner &&
+        `https://cdn.discordapp.com/banners/${id}/${banner}.${
+          banner.startsWith("a_") ? "gif" : "png"
+        }`,
+    };
+
+
+    let flagsList: UserFlags[] = [];
     for (const [key, value] of Object.entries(f.FLAGS)) {
       if ((flags & value) === value) {
         flagsList.push({
@@ -61,38 +84,22 @@ export default class DiscordUserController {
 
     // Converts a snowflake ID into a JavaScript Date object using the Discord's epoch (in ms)
     let timestamp: number = parseInt(id) / 4194304 + 1420070400000;
-    // Reverse formula to get the userID
-    // const userId: number = ((timestamp - 1420070400000) * 4194304)
 
-    const userInfos: UserData = {
+    const userInfos: ProfileData = {
       type,
       id: id,
       username: username,
       discriminator: discriminator,
       displayName: global_name,
-      avatar: {
-        id: avatar,
-        url:
-          avatar &&
-          `https://cdn.discordapp.com/avatars/${id}/${avatar}.${
-            avatar.startsWith("a_") ? "gif" : "png"
-          }`,
-      },
+      avatar: avatarMedia,
       isBot: bot,
       isSystem: system,
-      banner: {
-        id: banner,
-        url:
-          banner &&
-          `https://cdn.discordapp.com/banners/${id}/${banner}.${
-            banner.startsWith("a_") ? "gif" : "png"
-          }`,
-      },
+      banner: bannerMedia,
       avatarDecoration:
         avatar_decoration_data &&
         `https://cdn.discordapp.com/avatar-decoration-presets/${avatar_decoration_data.asset}`,
       accentColor: banner_color,
-      flags: flagsList.length ? flagsList : [],
+      flags: flagsList,
       timestamp: dayjs(timestamp).valueOf(),
       createdAt: dayjs(timestamp).format("MMMM D YYYY, hh:mm:ss A"),
       accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
@@ -101,7 +108,8 @@ export default class DiscordUserController {
     return userInfos;
   }
 
-  public async getUserByID(id: string): Promise<Lookup> {
+  @Get("/lookup/{id}")
+  public async getUserByID(@Path() id: string): Promise<LookupResponse> {
     if (!id) {
       return {
         status: 400,
@@ -154,7 +162,8 @@ export default class DiscordUserController {
     }
   }
 
-  public async decodeSnowflake(id: string) {
+  @Get("/decode/{id}")
+  public async decodeSnowflake(@Path() id: string) {
       if (!id) {
           return {
               status: 400,
@@ -206,7 +215,8 @@ export default class DiscordUserController {
       }
   }
 
-  public async calculateSnowflakeDifference(ids) {
+  @Get("/calculate-snowflake-difference")
+  public async calculateSnowflakeDifference(@Query() ids: string[]) {
     if (ids.length !== 2) {
       return {
         status: 400,

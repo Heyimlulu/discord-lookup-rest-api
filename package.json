@@ -5,13 +5,13 @@
   "description": "A simple API to lookup for a Discord User or Bot ID.",
   "main": "index.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon",
-    "build": "swc src -d dist --source-maps --copy-files",
-    "build:tsc": "tsc",
-    "start": "cross-env NODE_ENV=production node dist/index.js",
-    "start:dev": "yarn build && cross-env NODE_ENV=development node dist/index.js",
+    "predev": "yarn swagger",
+    "dev": "cross-env NODE_ENV=development concurrently \"nodemon\" \"nodemon -x tsoa spec\" \"tsoa routes\"",
+    "prebuild": "yarn swagger",
+    "build": "tsc",
+    "start": "cross-env NODE_ENV=production node build/src/index.js",
     "test": "jest",
-    "heroku-postbuild": "yarn build"
+    "swagger": "tsoa spec"
   },
   "license": "ISC",
   "dependencies": {

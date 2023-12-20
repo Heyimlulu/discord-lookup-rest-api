@@ -1,27 +1,27 @@
-export interface UserData {
+export interface ProfileData {
     type: string;
     id: string;
     username: string;
     discriminator: string;
     displayName?: string;
-    avatar?: AvatarAndBanner;
+    avatar?: MediaContent;
     isBot?: boolean;
     isSystem?: boolean;
-    banner?: AvatarAndBanner;
+    banner?: MediaContent;
     avatarDecoration?: string;
     accentColor?: string;
-    flags?: Array<Flags>;
+    flags?: Array<UserFlags>;
     timestamp: number;
     createdAt: string;
     accountAge: string;
 }
 
-interface AvatarAndBanner {
+export interface MediaContent  {
     id?: string;
     url?: string;
 }
 
-interface Flags {
+export interface UserFlags  {
     name: string;
     image: string;
 }

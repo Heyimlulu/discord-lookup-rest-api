@@ -1,0 +1,416 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"MediaContent": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserFlags": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"image"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProfileData": {
+				"properties": {
+					"type": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"discriminator": {
+						"type": "string"
+					},
+					"displayName": {
+						"type": "string"
+					},
+					"avatar": {
+						"$ref": "#/components/schemas/MediaContent"
+					},
+					"isBot": {
+						"type": "boolean"
+					},
+					"isSystem": {
+						"type": "boolean"
+					},
+					"banner": {
+						"$ref": "#/components/schemas/MediaContent"
+					},
+					"avatarDecoration": {
+						"type": "string"
+					},
+					"accentColor": {
+						"type": "string"
+					},
+					"flags": {
+						"items": {
+							"$ref": "#/components/schemas/UserFlags"
+						},
+						"type": "array"
+					},
+					"timestamp": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string"
+					},
+					"accountAge": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"type",
+					"id",
+					"username",
+					"discriminator",
+					"timestamp",
+					"createdAt",
+					"accountAge"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LookupResponse": {
+				"properties": {
+					"status": {
+						"type": "number",
+						"format": "double"
+					},
+					"success": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					},
+					"data": {
+						"$ref": "#/components/schemas/ProfileData"
+					}
+				},
+				"required": [
+					"status",
+					"success"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "discord-lookup-api",
+		"version": "3.0.0",
+		"description": "A simple API to lookup for a Discord User or Bot ID.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Lucas"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/v1/user/lookup/{id}": {
+			"get": {
+				"operationId": "GetUserByID",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LookupResponse"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/user/decode/{id}": {
+			"get": {
+				"operationId": "DecodeSnowflake",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"message",
+												"success",
+												"status"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"message": {},
+												"data": {
+													"properties": {
+														"difference": {
+															"properties": {
+																"milliseconds": {},
+																"seconds": {},
+																"minutes": {},
+																"hours": {},
+																"days": {},
+																"months": {},
+																"years": {
+																	"type": "number",
+																	"format": "double"
+																}
+															},
+															"required": [
+																"milliseconds",
+																"seconds",
+																"minutes",
+																"hours",
+																"days",
+																"months",
+																"years"
+															],
+															"type": "object"
+														},
+														"user": {
+															"properties": {
+																"accountAge": {
+																	"type": "string"
+																},
+																"createdAt": {},
+																"timestamp": {},
+																"id": {}
+															},
+															"required": [
+																"accountAge",
+																"createdAt",
+																"timestamp",
+																"id"
+															],
+															"type": "object"
+														}
+													},
+													"required": [
+														"difference",
+														"user"
+													],
+													"type": "object"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"data",
+												"success",
+												"status"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/v1/user/calculate-snowflake-difference": {
+			"get": {
+				"operationId": "CalculateSnowflakeDifference",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"properties": {
+												"data": {},
+												"message": {
+													"type": "string"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"message",
+												"success",
+												"status"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"message": {},
+												"data": {
+													"properties": {
+														"difference": {
+															"properties": {
+																"milliseconds": {},
+																"seconds": {},
+																"minutes": {},
+																"hours": {},
+																"days": {},
+																"months": {},
+																"years": {
+																	"type": "number",
+																	"format": "double"
+																}
+															},
+															"required": [
+																"milliseconds",
+																"seconds",
+																"minutes",
+																"hours",
+																"days",
+																"months",
+																"years"
+															],
+															"type": "object"
+														},
+														"users": {
+															"items": {
+																"properties": {
+																	"accountAge": {
+																		"type": "string"
+																	},
+																	"createdAt": {},
+																	"timestamp": {},
+																	"id": {}
+																},
+																"required": [
+																	"accountAge",
+																	"createdAt",
+																	"timestamp",
+																	"id"
+																],
+																"type": "object"
+															},
+															"type": "array"
+														}
+													},
+													"required": [
+														"difference",
+														"users"
+													],
+													"type": "object"
+												},
+												"success": {
+													"type": "boolean"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"data",
+												"success",
+												"status"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "ids",
+						"required": true,
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

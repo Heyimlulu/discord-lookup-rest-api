@@ -1,2 +1,1 @@
-export * from "./DiscordUserController";
-export * from "./LogsController";
+export * from "./LookupController";
