@@ -7,6 +7,7 @@ import { getEnvironmentBaseUrl } from "../../utils/environment";
 import { USER_BADGES_FLAGS, USER_BADGES_FLAGS_NAMES } from "../../types/user/Flags";
 import { PREMIUM_TYPES, PREMIUM_TYPES_NAMES } from "../../types/user/PremiumTypes";
 import { convertColor } from "../../helpers/color";
+import { removeEmptyFields } from "../../utils/emptyObject";
 
 interface LookupResponse {
   status: number;
@@ -106,7 +107,7 @@ export class UserController {
       accountAge: `${Math.round(dayjs().diff(dayjs(timestamp), "year", true))}`,
     };
 
-    return userInfos;
+    return removeEmptyFields(userInfos);
   }
 
   @Get("/lookup/{userId}")
@@ -156,7 +157,7 @@ export class UserController {
       return {
         status: 404,
         success: false,
-        message: new Error("User not found").message,
+        message: "User not found",
       };
     }
   }
