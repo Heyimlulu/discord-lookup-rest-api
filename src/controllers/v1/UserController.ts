@@ -72,7 +72,7 @@ export class UserController {
       }
     }
     
-    if (!badgesList.includes({ name: "Verified Bot", image: "Verified Bot" }) && bot) {
+    if (!badgesList.find((badge) => badge.name === "Verified Bot") && bot) {
       badgesList.push({ name: "Bot", image: `${this.baseUrl}/Bot.svg` });
     }
 
