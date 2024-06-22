@@ -62,5 +62,5 @@
     "ext": "ts",
     "exec": "ts-node src/index.ts"
   },
-  "packageManager": "yarn"
+  "packageManager": "yarn@4.3.1"
 }
