@@ -68,7 +68,6 @@ router.use("/static", express.static("./public/assets/flags"));
 
 const environment = process.env.NODE_ENV || "development";
 const port = process.env.PORT || "8080";
-const serverUrl = getEnvironmentBaseUrl();
 
 router.use("/", routes);
 
@@ -85,5 +84,5 @@ router.use((req: Request, res: Response) => {
 // Server
 const httpServer = http.createServer(router);
 httpServer.listen(port, () =>
-  console.log(`The server is running at ${serverUrl}`)
+  console.log(`The server is running on port ${port}`)
 );
