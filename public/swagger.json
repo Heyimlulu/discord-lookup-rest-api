@@ -201,6 +201,25 @@
 				],
 				"type": "number"
 			},
+			"APIAvatarDecorationData": {
+				"description": "https://discord.com/developers/docs/resources/user#avatar-decoration-data-object",
+				"properties": {
+					"asset": {
+						"type": "string",
+						"description": "The avatar decoration hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+					},
+					"sku_id": {
+						"$ref": "#/components/schemas/Snowflake",
+						"description": "The id of the avatar decoration's SKU"
+					}
+				},
+				"required": [
+					"asset",
+					"sku_id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"APIUser": {
 				"description": "https://discord.com/developers/docs/resources/user#user-object",
 				"properties": {
@@ -277,7 +296,17 @@
 					"avatar_decoration": {
 						"type": "string",
 						"nullable": true,
-						"description": "The user's avatar decoration hash\n\nSee https://discord.com/developers/docs/reference#image-formatting"
+						"description": "The user's avatar decoration hash\n\nSee https://discord.com/developers/docs/reference#image-formatting",
+						"deprecated": true
+					},
+					"avatar_decoration_data": {
+						"allOf": [
+							{
+								"$ref": "#/components/schemas/APIAvatarDecorationData"
+							}
+						],
+						"nullable": true,
+						"description": "The data for the user's avatar decoration\n\nSee https://discord.com/developers/docs/resources/user#avatar-decoration-data-object"
 					}
 				},
 				"required": [

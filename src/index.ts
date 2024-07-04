@@ -2,31 +2,11 @@ import http from "http";
 import express, { Express, NextFunction, Request, Response } from "express";
 import morgan from "morgan";
 import routes from "./routes";
-import rateLimit from "express-rate-limit";
 import swaggerUi from "swagger-ui-express";
-import { getEnvironmentBaseUrl } from "./utils/environment";
 import swaggerDocument from "../public/swagger.json";
 import { RegisterRoutes } from "./routes/routes";
 
 const router: Express = express();
-
-// const excludedDomains = ["discord.name"];
-// const apiLimiter = rateLimit({
-//   windowMs: 2 * 60 * 1000, // 2 minutes
-//   max: 10, // limit each IP to 10 requests per windowMs
-//   message: "Too many requests from this IP, please try again after 2 minutes",
-//   handler: (req: Request, res: Response) => {
-//     return res.status(429).json({
-//       status: 429,
-//       message:
-//         "Too many requests from this IP, please try again after 2 minutes",
-//     });
-//   },
-//   skip: (req: Request, res: Response) => {
-//     const requestDomain = req.hostname;
-//     return excludedDomains.includes(requestDomain);
-//   },
-// });
 
 // Rate limiter
 // router.use(apiLimiter);

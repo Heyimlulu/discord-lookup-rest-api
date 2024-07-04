@@ -1,9 +1,8 @@
 import axios from "axios";
-import { APIUser, UserFlags } from "discord-api-types/v10";
+import { APIUser } from "discord-api-types/v10";
 import { ProfileData, UserBadges, MediaContent } from "../../dtos";
 import dayjs from "dayjs";
 import { Get, Path, Query, Route, Tags } from "tsoa";
-import { getEnvironmentBaseUrl } from "../../utils/environment";
 import { USER_BADGES_FLAGS, USER_BADGES_FLAGS_NAMES } from "../../types/user/Flags";
 import { PREMIUM_TYPES, PREMIUM_TYPES_NAMES } from "../../types/user/PremiumTypes";
 import { convertColor } from "../../helpers/color";
@@ -19,7 +18,7 @@ interface LookupResponse {
 @Route("v1/user")
 @Tags("User")
 export class UserController {
-  private baseUrl: string = getEnvironmentBaseUrl() + "/static";
+  private baseUrl: string = process.env.BASE_URL + "/static";
 
   private getUserInfos(apiUser): ProfileData {    
     const {

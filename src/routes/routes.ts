@@ -83,6 +83,15 @@ const models: TsoaRoute.Models = {
         "enums": [0,1,2,3],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "APIAvatarDecorationData": {
+        "dataType": "refObject",
+        "properties": {
+            "asset": {"dataType":"string","required":true},
+            "sku_id": {"ref":"Snowflake","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "APIUser": {
         "dataType": "refObject",
         "properties": {
@@ -103,6 +112,7 @@ const models: TsoaRoute.Models = {
             "premium_type": {"ref":"UserPremiumType"},
             "public_flags": {"ref":"UserFlags"},
             "avatar_decoration": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}]},
+            "avatar_decoration_data": {"dataType":"union","subSchemas":[{"ref":"APIAvatarDecorationData"},{"dataType":"enum","enums":[null]}]},
         },
         "additionalProperties": false,
     },
@@ -221,7 +231,7 @@ const models: TsoaRoute.Models = {
             "permissions": {"ref":"Permissions"},
             "region": {"dataType":"string","required":true},
             "afk_channel_id": {"dataType":"union","subSchemas":[{"ref":"Snowflake"},{"dataType":"enum","enums":[null]}],"required":true},
-            "afk_timeout": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[60]},{"dataType":"enum","enums":[300]},{"dataType":"enum","enums":[900]},{"dataType":"enum","enums":[1800]},{"dataType":"enum","enums":[3600]}],"required":true},
+            "afk_timeout": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":[1800]},{"dataType":"enum","enums":[3600]},{"dataType":"enum","enums":[60]},{"dataType":"enum","enums":[300]},{"dataType":"enum","enums":[900]}],"required":true},
             "widget_enabled": {"dataType":"boolean"},
             "widget_channel_id": {"dataType":"union","subSchemas":[{"ref":"Snowflake"},{"dataType":"enum","enums":[null]}]},
             "default_message_notifications": {"ref":"GuildDefaultMessageNotifications","required":true},
