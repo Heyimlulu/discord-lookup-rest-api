@@ -7,6 +7,7 @@ import { USER_BADGES_FLAGS, USER_BADGES_FLAGS_NAMES } from "../../types/user/Fla
 import { PREMIUM_TYPES, PREMIUM_TYPES_NAMES } from "../../types/user/PremiumTypes";
 import { convertColor } from "../../helpers/color";
 import { removeEmptyFields } from "../../utils/emptyObject";
+import { insertLookup } from "../../utils/prisma";
 
 interface LookupResponse {
   status: number;
@@ -146,6 +147,13 @@ export class UserController {
       );
 
       const data = this.getUserInfos(response.data);
+
+      await insertLookup({
+        userId: data.id,
+        username: data.displayName ? `${data.username} (${data.displayName})` : data.username,
+        userType: data.type,
+        source: "REST API"
+      });
 
       return {
         status: 200,
